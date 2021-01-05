@@ -19,6 +19,7 @@ class Lib extends StatelessWidget {
   Future<Library> post;
   String id = Api.id;
   String pw = Api.pw;
+
 //401 -> 세션만료 , 500 -> 구문 분석오류(반납 책이 없음), 250-> 정상
   @override
   /*void didChangeDependencies() {
@@ -47,6 +48,7 @@ class Lib extends StatelessWidget {
         //Api().getlib(id, pw),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if(snapshot.hasData){
+
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -90,84 +92,104 @@ class Lib extends StatelessWidget {
                   ),
                 ),
               ),
+              Padding(
+                padding: EdgeInsets.zero,
+                  child:Text(''),
+              ),
               Flexible(
                 flex: 7,
                 child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
-                    print(snapshot.data.toString());
-                    return Card(
-                      color: Colors.grey[50],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Container(
-                            width: 100.0,
-                            height: 135.0,
-                            /*child: ClipRRect(
+                    //print(snapshot.data.toString());
+                    if(snapshot.data['error']['status']==500){  //대출도서 없을 떄
+                      return Padding(
+                          padding: EdgeInsets.all(10),
+                       child: Center(
+                          child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                          Image.asset("images/study.gif", width: 200, height: 200),
+                    SizedBox(height: 30),
+                    Text('대출하신 도서가 없습니다',style: styleModel.getTextStyle()['appBarTextStyle'],),
+                    ],
+                      ),),);
+                  }
+                    else{                         //정상
+                      return Card(
+                        color: Colors.grey[50],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Container(
+                              width: 100.0,
+                              height: 135.0,
+                              /*child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0),
                                 child: Image.memory(base64Decode(),
                                     fit: BoxFit.fill,
                                     height: 130.0,
                                     width: 100.0),
                               ),*/
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                new Text(
-                                  snapshot.data['data'].toString(),
-                                  style:
-                                  TextStyle(
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  height: 10.0,
-                                ),
-                                Container(
-                                  child: Column(children: <Widget>[
-                                    Text(
-                                      '대출일 : ',
-                                      style: styleModel.getTextStyle()['appBarTextStyle'],
-                                      /*TextStyle(
-                                          fontSize: 15.0,
-                                          fontStyle: FontStyle.italic),*/
-                                    ),
-                                    SizedBox(
-                                      height: 10.0,
-                                    ),
-                                    Container(
-                                      child: Text(
-                                        '반납일: ',
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  new Text(
+                                    snapshot.data['data'].toString(),
+                                    style:
+                                    TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  Container(
+                                    child: Column(children: <Widget>[
+                                      Text(
+                                        '대출일 : ',
                                         style: styleModel.getTextStyle()['appBarTextStyle'],
                                         /*TextStyle(
+                                          fontSize: 15.0,
+                                          fontStyle: FontStyle.italic),*/
+                                      ),
+                                      SizedBox(
+                                        height: 10.0,
+                                      ),
+                                      Container(
+                                        child: Text(
+                                          '반납일: ',
+                                          style: styleModel.getTextStyle()['appBarTextStyle'],
+                                          /*TextStyle(
                                             fontSize: 15.0,
                                             fontStyle: FontStyle.italic),*/
+                                        ),
                                       ),
-                                    ),
-                                  ]),
-                                ),
-                              ],
+                                    ]),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+                          ],
+                        ),
+                      );
+                    }
+                    },
                 ),
               ),
             ],
-          );}
+          );
+          }
           else if(snapshot.hasError){
-            return _errorView(snapshot.error);
+            return _errorView(snapshot.error,styleModel);
           }
           else{
             return Center(child:CupertinoActivityIndicator());
@@ -177,7 +199,7 @@ class Lib extends StatelessWidget {
     );
   }
 }
-Widget _errorView(String errorMessage) {
+Widget _errorView(String errorMessage,StyleModel styleModel ) {
   return Padding(
       padding: EdgeInsets.all(10),
       child: Center(
@@ -186,7 +208,7 @@ Widget _errorView(String errorMessage) {
             children: [
               Image.asset("images/study.gif", width: 300, height: 300),
               SizedBox(height: 30),
-              Text(errorMessage),
+              Text(errorMessage,style: styleModel.getTextStyle()['appBarTextStyle'],),
             ],
           )
       )
