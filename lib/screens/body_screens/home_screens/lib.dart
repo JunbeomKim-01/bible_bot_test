@@ -48,7 +48,6 @@ class Lib extends StatelessWidget {
         //Api().getlib(id, pw),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if(snapshot.hasData){
-
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[

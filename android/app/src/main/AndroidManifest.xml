@@ -11,6 +11,10 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="성서봇"
         android:icon="@mipmap/ic_launcher">
+
+        <!-- TODO: google API key를 입력 -->
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCg_h5JvVUTISs5SxXJfNgsKdN8VV9oip8"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
