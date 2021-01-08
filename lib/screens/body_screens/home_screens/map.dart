@@ -17,7 +17,7 @@ class MapState extends State<Map> {
   void initState() {
     super.initState();
   }
-  double zoomVal=5.0;
+  double zoomVal=10.0;
   @override
 
   Widget build(BuildContext context) {
@@ -46,7 +46,6 @@ class MapState extends State<Map> {
     );
   }
   Widget _zoomminusfunction() {
-
     return Align(
       alignment: Alignment.topLeft,
       child: IconButton(
@@ -58,7 +57,6 @@ class MapState extends State<Map> {
     );
   }
   Widget _zoomplusfunction() {
-
     return Align(
       alignment: Alignment.topRight,
       child: IconButton(
@@ -71,11 +69,11 @@ class MapState extends State<Map> {
   }
   Future<void> _minus(double zoomVal) async {
     final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(40.712776, -74.005974), zoom: zoomVal)));
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(37.64871447942806, 127.06436281430499), zoom: zoomVal)));
   }
   Future<void> _plus(double zoomVal) async {
     final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(40.712776, -74.005974), zoom: zoomVal)));
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(37.64871447942806, 127.06436281430499), zoom: zoomVal)));
   }
 
 
@@ -92,21 +90,24 @@ class MapState extends State<Map> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
-                 'https://www.google.com/maps/uv?pb=!1s0x357cb9148acb7fd5%3A0xea76e490fd385a5d!3m1!7e115!4shttps%3A%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipMbzhhR2iyak0-PdnwcL8cKavMqEUvGRi7-_Gba%3Dw260-h175-n-k-no!5z64W47JuQIOunm-ynkSAtIEdvb2dsZSDqsoDsg4k!15sCgIgAQ&imagekey=!1e10!2sAF1QipMbzhhR2iyak0-PdnwcL8cKavMqEUvGRi7-_Gba&hl=ko#', 40.738380, -73.988426,"노원목고기집"),
+                 'https://www.google.com/maps/uv?pb=!1s0x357cb9148acb7fd5%3A0xea76e490fd385a5d!3m1!7e115!4shttps%3A%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipMbzhhR2iyak0-PdnwcL8cKavMqEUvGRi7-_Gba%3Dw260-h175-n-k-no!5z64W47JuQIOunm-ynkSAtIEdvb2dsZSDqsoDsg4k!15sCgIgAQ&imagekey=!1e10!2sAF1QipMbzhhR2iyak0-PdnwcL8cKavMqEUvGRi7-_Gba&hl=ko#', 37.656604494993715, 127.06553379897117,"노원목고기집"),
             ),
             SizedBox(width: 10.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
                   "https://www.google.com/maps/uv?pb=!1s0x357cb9154d29b099:0x8c2cc43dcb8e9b98!3m1!7e115!4shttps://lh5.googleusercontent.com/p/AF1QipNgv-CT7rfkEqjv3ziSRKJIYCggeSESUL5Asgw%3Dw260-h175-n-k-no!5z64W47JuQIOunm-ynkSAtIEdvb2dsZSDqsoDsg4k!15zQ2dJZ0FRPT0&imagekey=!1e10!2sAF1QipNgv-CT7rfkEqjv3ziSRKJIYCggeSESUL5Asgw&hl=ko",
-                  40.761421, -73.981667,"시골애"),
+                  37.956604494993715, 128.06553379897117,"시골애"),
             ),
             SizedBox(width: 10.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
                   "https://www.google.com/maps/uv?pb=!1s0x357cb9148acc7fb3:0x9e3890a3e563933a!3m1!7e115!4shttps://lh5.googleusercontent.com/p/AF1QipPt7DtXf00DJiqqsTEqPlJjYjISIn49L1-Bub4o%3Dw260-h175-n-k-no!5z64W47JuQIOunm-ynkSAtIEdvb2dsZSDqsoDsg4k!15zQ2dJZ0FRPT0&imagekey=!1e10!2sAF1QipPt7DtXf00DJiqqsTEqPlJjYjISIn49L1-Bub4o&hl=ko",
-                  40.732128, -73.999619,"명동찌개마을"),
+                  38.656604494993715, 129.06553379897117,"명동찌개마을"),
+            ),
+            SizedBox(width: 10.0),
+            Padding(padding: const EdgeInsets.all(8.0),
             ),
           ],
         ),
@@ -253,17 +254,16 @@ class MapState extends State<Map> {
       width: MediaQuery.of(context).size.width,
       child: GoogleMap(
         mapType: MapType.normal,
-        initialCameraPosition:  CameraPosition(target: LatLng(40.712776, -74.005974), zoom: 12),
+        initialCameraPosition:  CameraPosition(target: LatLng(37.64871447942806, 127.06436281430499), zoom: 16.2),//37.64871447942806, 127.06436281430499
         /*onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },*/
         markers: {
-          newyork1Marker,newyork2Marker,newyork3Marker,gramercyMarker,bernardinMarker,blueMarker
+          KBUMarker,MokGOGIMarker,SIGOLMarker,
         },
       ),
     );
   }
-
   Future<void> _gotoLocation(double lat,double long) async {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(lat, long), zoom: 15,tilt: 50.0,
@@ -271,53 +271,59 @@ class MapState extends State<Map> {
   }
 }
 
-Marker gramercyMarker = Marker(
-  markerId: MarkerId('gramercy'),
-  position: LatLng(40.738380, -73.988426),
-  infoWindow: InfoWindow(title: 'Gramercy Tavern'),
+Marker KBUMarker=Marker(
+  markerId: MarkerId('한국성서대'),
+  position: LatLng(37.64871447942806,127.06436281430499),
+  infoWindow: InfoWindow(title:'한국성서대'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
+);
+Marker MokGOGIMarker = Marker(
+  markerId: MarkerId('노원목고기집'),
+  position: LatLng(37.656604494993715, 127.06553379897117),
+  infoWindow: InfoWindow(title: '노원목고기집'),
   icon: BitmapDescriptor.defaultMarkerWithHue(
     BitmapDescriptor.hueViolet,
   ),
 );
-Marker bernardinMarker = Marker(
-  markerId: MarkerId('bernardin'),
-  position: LatLng(40.761421, -73.981667),
-  infoWindow: InfoWindow(title: 'Le Bernardin'),
+Marker SIGOLMarker = Marker(
+  markerId: MarkerId('시골애'),
+  position: LatLng(37.656604494993715, 127.08553379897117),
+  infoWindow: InfoWindow(title: '시골애'),
   icon: BitmapDescriptor.defaultMarkerWithHue(
     BitmapDescriptor.hueViolet,
   ),
 );
-Marker blueMarker = Marker(
-  markerId: MarkerId('bluehill'),
-  position: LatLng(40.732128, -73.999619),
-  infoWindow: InfoWindow(title: 'Blue Hill'),
+Marker MUENMarker = Marker(
+  markerId: MarkerId('명동찌개마을'),
+  position: LatLng(37.356604494993715, 127.16553379897117),
+  infoWindow: InfoWindow(title: '명동찌개마을'),
   icon: BitmapDescriptor.defaultMarkerWithHue(
     BitmapDescriptor.hueViolet,
   ),
 );
 
-//New York Marker
+//no one Marker
 
-Marker newyork1Marker = Marker(
-  markerId: MarkerId('newyork1'),
-  position: LatLng(40.742451, -74.005959),
-  infoWindow: InfoWindow(title: 'Los Tacos'),
+Marker noone1Marker = Marker(
+  markerId: MarkerId('아무 맛집'),
+  position: LatLng(39.656604494993715, 127.06553379897117),
+  infoWindow: InfoWindow(title: '아무 맛집'),
   icon: BitmapDescriptor.defaultMarkerWithHue(
     BitmapDescriptor.hueViolet,
   ),
 );
-Marker newyork2Marker = Marker(
-  markerId: MarkerId('newyork2'),
-  position: LatLng(40.729640, -73.983510),
-  infoWindow: InfoWindow(title: 'Tree Bistro'),
+Marker noone2Marker = Marker(
+  markerId: MarkerId('맛집이여'),
+  position: LatLng(40.656604494993715, 128.06553379897117),
+  infoWindow: InfoWindow(title: '맛집이여'),
   icon: BitmapDescriptor.defaultMarkerWithHue(
     BitmapDescriptor.hueViolet,
   ),
 );
-Marker newyork3Marker = Marker(
-  markerId: MarkerId('newyork3'),
-  position: LatLng(40.719109, -74.000183),
-  infoWindow: InfoWindow(title: 'Le Coucou'),
+Marker noone3Marker = Marker(
+  markerId: MarkerId('맛있어요'),
+  position: LatLng(35.656604494993715, 123.06553379897117),
+  infoWindow: InfoWindow(title: '맛있어요'),
   icon: BitmapDescriptor.defaultMarkerWithHue(
     BitmapDescriptor.hueViolet,
   ),
