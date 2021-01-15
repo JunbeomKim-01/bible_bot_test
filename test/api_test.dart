@@ -32,7 +32,7 @@ void main() {
     });
 
     test('lib test', () async {
-      var result = await Api().getlib("ygflove95", "dms!15096");
+      var result = await Api().getlib("ygflove95", "dms!15096");//ygflove95, dms!15096
       print(result);
     });
 

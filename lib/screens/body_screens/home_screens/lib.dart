@@ -19,8 +19,9 @@ class Lib extends StatelessWidget {
   Future<Library> post;
   String id = Api.id;
   String pw = Api.pw;
+  bool status403=false;
 
-//401 -> 세션만료 , 500 -> 구문 분석오류(반납 책이 없음), 250-> 정상
+//401 -> 세션만료 , 500 -> 구문 분석오류(반납 책이 없음), 250-> 정상 403-> 대출목록 없음
   @override
   /*void didChangeDependencies() {
     //super.didChangeDependencies();
@@ -44,10 +45,21 @@ class Lib extends StatelessWidget {
         ),
       ),
       body: FutureBuilder(
-        future: Api().getlib("ygflove95", "dms!15096"),
+        future:
+        //Api().getlib(id,pw),
+        Api().getlib("junbeom1", "hk0301234"),
         //Api().getlib(id, pw),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if(snapshot.data['error']==null){
+            status403=false;
+          }else{
+            status403=true;
+          }
           if(snapshot.hasData){
+            //print(snapshot.error);
+            if(status403){
+              return _status403(snapshot, styleModel, context,Api.pw);
+            }
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -96,13 +108,12 @@ class Lib extends StatelessWidget {
                   child:Text(''),
               ),
               Flexible(
-                flex: 7,
+                flex: 6,
                 child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: snapshot.data['data']['body'].length,
                   itemBuilder: (BuildContext context, int index) {
                     //print(snapshot.data.toString());
-                    //정상
                       return Card(
                         color: Colors.grey[50],
                         shape: RoundedRectangleBorder(
@@ -129,9 +140,9 @@ class Lib extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   new Text(
+                                    //snapshot.data['error']['title'].toString(),
                                     snapshot.data['data']['body'][index][1].toString(),
-                                    style:
-                                    styleModel.getTextStyle()['appBarTextStyle'],
+                                    style: styleModel.getTextStyle()['appBarTextStyle'],
                                   ),
                                   SizedBox(
                                     height: 10.0,
@@ -139,7 +150,7 @@ class Lib extends StatelessWidget {
                                   Container(
                                     child: Column(children: <Widget>[
                                       Text(
-                                        '대출일 :${snapshot.data['data']['body'][index][2]} ',
+                                        '대출일 :${snapshot.data['data']['body'][index][2]}' ,
                                         style: styleModel.getTextStyle()['appBarTextStyle'],
                                         /*TextStyle(
                                           fontSize: 15.0,
@@ -165,7 +176,6 @@ class Lib extends StatelessWidget {
                           ],
                         ),
                       );
-
                     },
                 ),
               ),
@@ -183,6 +193,64 @@ class Lib extends StatelessWidget {
     );
   }
 }
+Widget _status403(AsyncSnapshot snapshot,StyleModel styleModel, BuildContext context ,String pw){
+    return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text('추천도서',
+            style: styleModel.getTextStyle()['appBarTextStyle'],),
+          Flexible(flex: 3,
+            child: Swiper(
+              containerHeight: 10.0,
+              autoplay: true,
+              itemWidth: MediaQuery.of(context).size.width * 0.32,
+              itemHeight: MediaQuery.of(context).size.height * 0.4,
+              viewportFraction: 0.8,
+              layout: SwiperLayout.STACK,
+              pagination:
+              SwiperPagination(alignment: Alignment.bottomRight),
+              itemCount: 3,
+              itemBuilder: (BuildContext context, int index) => Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    //server.getReq(headerkey.toString());
+                    // _showSnackBar(context, _reBooks[index], index, books),
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: Container(
+                      height: 140.0,
+                      width: 300.0,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('images/recom.png'),
+                              fit: BoxFit.cover)),
+                    ),
+                  ),
+                ),
+              ),
+            ),),
+          Padding(padding: EdgeInsets.zero,
+            child:Text(''),),
+          Flexible(
+            flex: 7,
+            child:Center(
+              child:Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                    Image.asset("images/study.gif", width: 300, height: 300),
+                    SizedBox(height: 30),
+                    Text('${snapshot.data['error']['title'].toString()}',style: styleModel.getTextStyle()['appBarTextStyle'],),
+                    ],
+        )
+    ),),
+        ],
+    );
+  }
+
 Widget _errorView(String errorMessage,StyleModel styleModel ) {
   return Padding(
       padding: EdgeInsets.all(10),
