@@ -146,8 +146,7 @@ class MapState extends State<Map> {
                       child: myDetailsContainer1(restaurantName),
                     ),
                   ),
-
-                ],)
+                ],),
           ),
         ),
       ),
@@ -255,9 +254,9 @@ class MapState extends State<Map> {
       child: GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition:  CameraPosition(target: LatLng(37.64871447942806, 127.06436281430499), zoom: 16.2),//37.64871447942806, 127.06436281430499
-        /*onMapCreated: (GoogleMapController controller) {
+        onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
-        },*/
+        },
         markers: {
           KBUMarker,MokGOGIMarker,SIGOLMarker,
         },
@@ -302,7 +301,7 @@ Marker MUENMarker = Marker(
   ),
 );
 
-//no one Marker
+//노원 Marker
 
 Marker noone1Marker = Marker(
   markerId: MarkerId('아무 맛집'),

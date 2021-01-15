@@ -80,11 +80,11 @@ class Lib extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20.0),
                         child: Container(
                           height: 140.0,
-                          width: 200.0,
+                          width: 300.0,
                           decoration: BoxDecoration(
                                 image: DecorationImage(
-                                    image: AssetImage('images/images.png'),
-                                    fit: BoxFit.fill)),
+                                    image: AssetImage('images/recom.png'),
+                                    fit: BoxFit.cover)),
                         ),
                       ),
                     ),
@@ -99,23 +99,10 @@ class Lib extends StatelessWidget {
                 flex: 7,
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: snapshot.data.length,
+                  itemCount: snapshot.data['data']['body'].length,
                   itemBuilder: (BuildContext context, int index) {
                     //print(snapshot.data.toString());
-                    if(snapshot.data['error']['status']==500){  //대출도서 없을 떄
-                      return Padding(
-                          padding: EdgeInsets.all(10),
-                       child: Center(
-                          child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                          Image.asset("images/study.gif", width: 200, height: 200),
-                    SizedBox(height: 30),
-                    Text('대출하신 도서가 없습니다',style: styleModel.getTextStyle()['appBarTextStyle'],),
-                    ],
-                      ),),);
-                  }
-                    else{                         //정상
+                    //정상
                       return Card(
                         color: Colors.grey[50],
                         shape: RoundedRectangleBorder(
@@ -127,13 +114,13 @@ class Lib extends StatelessWidget {
                             Container(
                               width: 100.0,
                               height: 135.0,
-                              /*child: ClipRRect(
+                              child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0),
-                                child: Image.memory(base64Decode(),
+                                child: Image.memory(base64.decode(snapshot.data['data']['body'][index][6]['img'].toString()),
                                     fit: BoxFit.fill,
                                     height: 130.0,
                                     width: 100.0),
-                              ),*/
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -142,11 +129,9 @@ class Lib extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   new Text(
-                                    snapshot.data['data'].toString(),
+                                    snapshot.data['data']['body'][index][1].toString(),
                                     style:
-                                    TextStyle(
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.bold),
+                                    styleModel.getTextStyle()['appBarTextStyle'],
                                   ),
                                   SizedBox(
                                     height: 10.0,
@@ -154,7 +139,7 @@ class Lib extends StatelessWidget {
                                   Container(
                                     child: Column(children: <Widget>[
                                       Text(
-                                        '대출일 : ',
+                                        '대출일 :${snapshot.data['data']['body'][index][2]} ',
                                         style: styleModel.getTextStyle()['appBarTextStyle'],
                                         /*TextStyle(
                                           fontSize: 15.0,
@@ -165,7 +150,7 @@ class Lib extends StatelessWidget {
                                       ),
                                       Container(
                                         child: Text(
-                                          '반납일: ',
+                                          '반납일: ${snapshot.data['data']['body'][index][3]} ',
                                           style: styleModel.getTextStyle()['appBarTextStyle'],
                                           /*TextStyle(
                                             fontSize: 15.0,
@@ -180,7 +165,7 @@ class Lib extends StatelessWidget {
                           ],
                         ),
                       );
-                    }
+
                     },
                 ),
               ),
