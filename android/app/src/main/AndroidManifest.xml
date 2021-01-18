@@ -6,15 +6,23 @@
          In most cases you can leave this as-is, but you if you want to provide
          additional functionality it is fine to subclass or reimplement
          FlutterApplication and put your custom class here. -->
+
     <application
         android:networkSecurityConfig="@xml/network_security_config"
         android:name="io.flutter.app.FlutterApplication"
         android:label="성서봇"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"
+        >
 
         <!-- TODO: google API key를 입력 -->
-        <meta-data android:name="com.google.android.geo.API_KEY"
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCg_h5JvVUTISs5SxXJfNgsKdN8VV9oip8"/>
+        <!-- TODO: kako API key를 입력 -->
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="476fc39ee883d218bbf5a4d394f29c9e"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

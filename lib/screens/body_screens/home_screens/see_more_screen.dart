@@ -17,6 +17,7 @@ import 'campus_map.dart';
 import 'mileage_screen.dart';
 import 'study_screen.dart';
 import 'package:bible_bot/screens/body_screens/home_screens/map.dart';
+import 'package:bible_bot/screens/body_screens/home_screens/new_campus_map.dart';
 class SeeMoreScreen extends StatefulWidget {
   @override
   _SeeMoreScreenState createState() => _SeeMoreScreenState();
@@ -453,12 +454,12 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                                       new MaterialPageRoute(
                                         builder: (BuildContext context) =>
                                             MultiProvider(providers: [
-                                          Provider<StyleModel>.value(
+                                            Provider<StyleModel>.value(
                                               value: StyleModel(context,
                                                   currentTheme: themeData)),
-                                          Provider<String>.value(
+                                              Provider<String>.value(
                                               value: themeData),
-                                        ], child: Schedule()),
+                                                ], child: Schedule()),
                                       ),
                                     );
                                   },
@@ -823,7 +824,64 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                               ),
                               Flexible(
                                 flex: 1,
-                                child: Container(),
+                                child: RaisedButton(
+                                  highlightElevation: 0,
+                                  highlightColor: styleModel
+                                      .getBackgroundColor()['highLightColor'],
+                                  focusElevation: 0,
+                                  elevation: 0,
+                                  splashColor: styleModel
+                                      .getBackgroundColor()['splashColor'],
+                                  color: Colors.transparent,
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      new MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            MultiProvider(providers: [
+                                              Provider<StyleModel>.value(
+                                                  value: StyleModel(context,
+                                                      currentTheme: themeData)),
+                                              Provider<String>.value(
+                                                  value: themeData),
+                                            ], child: MyAppOne()),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Flexible(
+                                          flex: 1,
+                                          child: Container(
+                                            alignment: Alignment.bottomCenter,
+                                            width: double.infinity,
+                                            height: double.infinity,
+                                            child: Icon(
+                                              Icons.bookmark,
+                                              size: styleModel.getContextSize()[
+                                              'bigIconSize'],
+                                              color: Colors.blueGrey,
+                                            ),
+                                          ),
+                                        ),
+                                        Flexible(
+                                          flex: 1,
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            width: double.infinity,
+                                            height: double.infinity,
+                                            child: Text(
+                                              "new map",
+                                              overflow: TextOverflow.ellipsis,
+                                              style: styleModel.getTextStyle()[
+                                              'bodyTextStyle'],
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ),
                               Flexible(
                                 flex: 1,

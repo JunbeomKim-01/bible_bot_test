@@ -1,20 +1,12 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:bible_bot/api/api.dart';
-import 'package:bible_bot/models/event.dart';
 import 'package:bible_bot/models/style_model.dart';
-import 'package:bible_bot/screens/login_screens/login_control.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:bible_bot/screens/body_screens/home_screens/see_more_screen.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:bible_bot/models/style_model.dart';
 import 'package:provider/provider.dart';
 import 'package:bible_bot/models/lib.dart';
-import 'package:bible_bot/api/api.dart';
-import 'package:bible_bot/screens/login_screens/login_screen.dart';
-
+import 'package:bible_bot/widgets/width_division_line.dart';
 class Lib extends StatelessWidget {
   Future<Library> post;
   String id = Api.id;
@@ -47,7 +39,7 @@ class Lib extends StatelessWidget {
       body: FutureBuilder(
         future:
         //Api().getlib(id,pw),
-        Api().getlib("junbeom1", "hk0301234"),
+        Api().getlib("ygflove95", "dms!15096"),
         //Api().getlib(id, pw),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if(snapshot.data['error']==null){
@@ -86,7 +78,7 @@ class Lib extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         //server.getReq(headerkey.toString());
-                        // _showSnackBar(context, _reBooks[index], index, books),
+                         _showSnackBar(context,snapshot, index);
                       },
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20.0),
@@ -142,7 +134,7 @@ class Lib extends StatelessWidget {
                                   new Text(
                                     //snapshot.data['error']['title'].toString(),
                                     snapshot.data['data']['body'][index][1].toString(),
-                                    style: styleModel.getTextStyle()['appBarTextStyle'],
+                                    style: TextStyle(fontWeight: FontWeight.bold)
                                   ),
                                   SizedBox(
                                     height: 10.0,
@@ -151,7 +143,6 @@ class Lib extends StatelessWidget {
                                     child: Column(children: <Widget>[
                                       Text(
                                         '대출일 :${snapshot.data['data']['body'][index][2]}' ,
-                                        style: styleModel.getTextStyle()['appBarTextStyle'],
                                         /*TextStyle(
                                           fontSize: 15.0,
                                           fontStyle: FontStyle.italic),*/
@@ -162,7 +153,6 @@ class Lib extends StatelessWidget {
                                       Container(
                                         child: Text(
                                           '반납일: ${snapshot.data['data']['body'][index][3]} ',
-                                          style: styleModel.getTextStyle()['appBarTextStyle'],
                                           /*TextStyle(
                                             fontSize: 15.0,
                                             fontStyle: FontStyle.italic),*/
@@ -217,7 +207,7 @@ Widget _status403(AsyncSnapshot snapshot,StyleModel styleModel, BuildContext con
                 child: GestureDetector(
                   onTap: () {
                     //server.getReq(headerkey.toString());
-                    // _showSnackBar(context, _reBooks[index], index, books),
+                    _showSnackBar(context, snapshot,index);
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
@@ -233,8 +223,7 @@ Widget _status403(AsyncSnapshot snapshot,StyleModel styleModel, BuildContext con
                 ),
               ),
             ),),
-          Padding(padding: EdgeInsets.zero,
-            child:Text(''),),
+          WidthDivisionLine(),
           Flexible(
             flex: 7,
             child:Center(
@@ -267,7 +256,7 @@ Widget _errorView(String errorMessage,StyleModel styleModel ) {
   );
 }
 //추천 도서 받아야해
-/*_showSnackBar(BuildContext context, recommand item,index, books) {
+_showSnackBar(BuildContext context,AsyncSnapshot snapshot ,index) {
   final SnackBar objSnackbar = new SnackBar(
     content: Center(
       child: Material(
@@ -286,11 +275,11 @@ Widget _errorView(String errorMessage,StyleModel styleModel ) {
             children: <Widget>[
               ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                child: new Image.asset(
+                /*child: new Image.asset(
                   item.images,
                   height: 200.0,
                   width: 150.0,
-                ),
+                ),*/
               ),
               SizedBox(
                 height: 10.0,
@@ -300,14 +289,14 @@ Widget _errorView(String errorMessage,StyleModel styleModel ) {
                 height: 10.0,
               ),
               Text(
-                ' ${item.name}',
+               '0', //' ${item.name}',
                 style: TextStyle(color: Colors.grey, fontSize: 15.0),
               ),
               SizedBox(
                 height: 10.0,
               ),
               Text(
-                '소개글 : ${item.title}',
+                '소개글 ',//: ${item.title}',
                 style: TextStyle(
                   color: Colors.grey[500],
                   fontSize: 12.0,
@@ -321,4 +310,4 @@ Widget _errorView(String errorMessage,StyleModel styleModel ) {
     ),
   );
   Scaffold.of(context).showSnackBar(objSnackbar);
-}*/
+}

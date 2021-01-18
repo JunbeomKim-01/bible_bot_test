@@ -1,34 +1,21 @@
 import 'package:bible_bot/models/style_model.dart';
-import 'package:bible_bot/widgets/width_division_line.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:provider/provider.dart';
+import 'package:bible_bot/widgets/width_division_line.dart';
 
-class CampusMapScreen extends StatefulWidget {
+class MyAppOne extends StatefulWidget {
   @override
-  _CampusMapScreenState createState() => _CampusMapScreenState();
+  _MyAppOneState createState() => _MyAppOneState();
 }
 
-class _CampusMapScreenState extends State<CampusMapScreen> {
+class _MyAppOneState extends State<MyAppOne> {
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     StyleModel styleModel = Provider.of<StyleModel>(context);
-    return Scaffold(
-      appBar: AppBar(
-          automaticallyImplyLeading: true,
-          title: Text('캠퍼스맵',
-              style: styleModel.getTextStyle()['appBarTextStyle'],
-              overflow: TextOverflow.ellipsis),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back,
-                color: styleModel.getBackgroundColor()['reversalColorLevel1']),
-            onPressed: () => Navigator.pop(context, false),
-          ),
-          elevation: 0,
-          brightness: styleModel.getBrightness()['appBarBrightness'],
-          backgroundColor:
-              styleModel.getBackgroundColor()['backgroundColorLevel1']),
-      body: Container(
+    return Scaffold(appBar: AppBar(title: Text('title'),),
+      body:Container(
         width: double.infinity,
         height: double.infinity,
         color: styleModel.getBackgroundColor()['backgroundColorLevel1'],
@@ -95,7 +82,7 @@ class _CampusMapScreenState extends State<CampusMapScreen> {
                                         child: Text(
                                           "주소",
                                           style: styleModel.getTextStyle()[
-                                              'subtitleTextStyle'],
+                                          'subtitleTextStyle'],
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
@@ -123,7 +110,7 @@ class _CampusMapScreenState extends State<CampusMapScreen> {
                                             child: Text(
                                               "139-791",
                                               style: styleModel.getTextStyle()[
-                                                  'bodyTextStyle'],
+                                              'bodyTextStyle'],
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
@@ -135,7 +122,7 @@ class _CampusMapScreenState extends State<CampusMapScreen> {
                                             child: SelectableText(
                                               "서울시 노원구 동일로 214길 32",
                                               style: styleModel.getTextStyle()[
-                                                  'bodyTextStyle'],
+                                              'bodyTextStyle'],
                                             ),
                                           ),
                                         ),
@@ -155,8 +142,8 @@ class _CampusMapScreenState extends State<CampusMapScreen> {
                                               child: Text(
                                                 "전화번호",
                                                 style:
-                                                    styleModel.getTextStyle()[
-                                                        'bodyTextStyle'],
+                                                styleModel.getTextStyle()[
+                                                'bodyTextStyle'],
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                             ),
@@ -168,8 +155,8 @@ class _CampusMapScreenState extends State<CampusMapScreen> {
                                               child: Text(
                                                 "02-950-5401",
                                                 style:
-                                                    styleModel.getTextStyle()[
-                                                        'bodyTextStyle'],
+                                                styleModel.getTextStyle()[
+                                                'bodyTextStyle'],
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                             ),
@@ -215,7 +202,7 @@ class _CampusMapScreenState extends State<CampusMapScreen> {
                                         child: Text(
                                           "지하철",
                                           style: styleModel.getTextStyle()[
-                                              'subtitleTextStyle'],
+                                          'subtitleTextStyle'],
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
@@ -245,8 +232,8 @@ class _CampusMapScreenState extends State<CampusMapScreen> {
                                               child: Text(
                                                 "지하철 7호선",
                                                 style:
-                                                    styleModel.getTextStyle()[
-                                                        'bodyTextStyle'],
+                                                styleModel.getTextStyle()[
+                                                'bodyTextStyle'],
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                             ),
@@ -258,8 +245,8 @@ class _CampusMapScreenState extends State<CampusMapScreen> {
                                               child: Text(
                                                 " 중계역 1번출구에서 1분거리",
                                                 style:
-                                                    styleModel.getTextStyle()[
-                                                        'bodyTextStyle'],
+                                                styleModel.getTextStyle()[
+                                                'bodyTextStyle'],
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                             ),
@@ -282,10 +269,10 @@ class _CampusMapScreenState extends State<CampusMapScreen> {
                                                 child: Text(
                                                   "지하철 4호선",
                                                   style:
-                                                      styleModel.getTextStyle()[
-                                                          'bodyTextStyle'],
+                                                  styleModel.getTextStyle()[
+                                                  'bodyTextStyle'],
                                                   overflow:
-                                                      TextOverflow.ellipsis,
+                                                  TextOverflow.ellipsis,
                                                 ),
                                               ),
                                             ),
@@ -296,10 +283,10 @@ class _CampusMapScreenState extends State<CampusMapScreen> {
                                                 child: Text(
                                                   " 노원역 2번출구에서 5분거리",
                                                   style:
-                                                      styleModel.getTextStyle()[
-                                                          'bodyTextStyle'],
+                                                  styleModel.getTextStyle()[
+                                                  'bodyTextStyle'],
                                                   overflow:
-                                                      TextOverflow.ellipsis,
+                                                  TextOverflow.ellipsis,
                                                 ),
                                               ),
                                             ),
@@ -315,12 +302,108 @@ class _CampusMapScreenState extends State<CampusMapScreen> {
                         ],
                       ),
                     ),
-
-                  ],
-                ))
+                    WidthDivisionLine(),
+                    Flexible(
+                        flex:1,
+                        child: GestureDetector(
+                            child:Container(
+                              alignment: Alignment.center,
+                              child:Row(children: <Widget>[
+                                Flexible(
+                                    flex: 1,
+                                  child: Row(children: <Widget>[
+                                  Flexible(
+                                  flex: 1,
+                                    child: Container(
+                                        width: double.infinity,
+                                        alignment: Alignment.center,
+                                        child:IconButton(
+                                      icon: Icon(Icons.home,
+                                      color: Colors.blueAccent),
+                                      onPressed:(){
+                                        Scaffold.of(context).showSnackBar(SnackBar(content:Text('dasda')));
+                                        } )
+                            ),
+                          ),
+                                  Flexible(
+                                    flex: 2,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child: Container(
+                                        alignment: Alignment.centerLeft,
+                                        width: double.infinity,
+                                        child: Text(
+                                          "강의실",
+                                          style: styleModel.getTextStyle()['subtitleTextStyle'],
+                                          overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],),),
+                                Flexible(
+                                  flex: 1,
+                                  child:Container(alignment: Alignment.centerLeft
+                                    ,
+                                  child:Text(
+                                      '강의실 위치',
+                                      style: styleModel.getTextStyle()['subtitleTextStyle'],
+                                      overflow: TextOverflow.ellipsis,),)
+                        ),
+                                Flexible(
+                                flex: 1,
+                                child:Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 8.0,
+                                  ),
+                                    child:Container(
+                                      alignment: Alignment(-15,3),
+                                    child:Column(children: <Widget>[
+                                    Flexible(
+                                      flex: 1,
+                                      child:Text('갈멜관 /복음관 /밀알관',
+                                    style: styleModel.getTextStyle()[
+                                      'subtitleTextStyle'],
+                                    overflow: TextOverflow.ellipsis,),),
+                                    Flexible(
+                                    flex: 2,
+                                    child:Text('모리아관 /일립관',
+                                      style: styleModel.getTextStyle()[
+                                          'subtitleTextStyle'],
+                                      overflow: TextOverflow.ellipsis,)),
+                        ],),),),)
+                      ],),),),
+                    ),],
+                ),),
           ],
         ),
       ),
     );
   }
+}
+class Lecture extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold();
+  }
+}
+showSnackbarWithKey(final scaffoldKey) {
+  scaffoldKey.currentState.showSnackBar(
+    SnackBar(
+      content: Text("Did you call me?"),
+      backgroundColor: Colors.blue,
+      action: SnackBarAction(
+        label: "Done",
+        textColor: Colors.white,
+        onPressed: () {},
+      ),
+    ),
+  );
+}
+
+
+Widget showSnackBar(BuildContext context){
+ return   Text( 'Hello!', textAlign: TextAlign.center, style: TextStyle(color: Colors.white),
+  );
+ // Scaffold.of(context).showSnackBar(objSnackbar);
 }
