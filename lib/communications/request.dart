@@ -33,6 +33,7 @@ class Request {
 
     return UserInformation.fromJson(studentTotalInfo);
   }
+
   Future<HomeScreenInfomation> getHomeScreenInfo() async {
     studentInfo = await api.getChapel();
     Chapel chapel;

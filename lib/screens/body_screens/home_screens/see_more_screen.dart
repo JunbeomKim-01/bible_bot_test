@@ -1,6 +1,7 @@
 import 'package:bible_bot/communications/home_screen_information.dart';
 import 'package:bible_bot/communications/user_information.dart';
 import 'package:bible_bot/models/style_model.dart';
+import 'package:bible_bot/communications/request.dart';
 import 'package:bible_bot/screens/body_screens/home_screens/developer_screen.dart';
 import 'package:bible_bot/screens/body_screens/home_screens/schedule.dart';
 import 'package:bible_bot/screens/body_screens/home_screens/school_news.dart';
@@ -151,19 +152,28 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                               child: Column(
                                 children: <Widget>[
                                   Flexible(
-                                    flex: 1,
-                                    child: Container(
-                                      alignment: Alignment.bottomLeft,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 18.0, bottom: 8.0),
-                                        child: Text(
-                                          "마일리지 잔액",
-                                          overflow: TextOverflow.ellipsis,
-                                          style: styleModel
-                                              .getTextStyle()['bodyTextStyle'],
+                                    child:Row(
+                                      children: <Widget>[
+                                        Flexible(
+                                        flex: 1,
+                                          child: Container(
+                                          alignment: Alignment.bottomLeft,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                left: 18.0, bottom: 8.0),
+                                                  child: Text(
+                                                    "마일리지 잔액",
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: styleModel
+                                                        .getTextStyle()['bodyTextStyle'],
                                         ),
                                       ),
+                                    ),),
+                                        Flexible(
+                                          flex: 1,
+                                          child: Container(),
+                                        )
+                                  ],
                                     ),
                                   ),
                                   Flexible(
@@ -183,6 +193,7 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                                         ),
                                       ),
                                     ),
+
                                   )
                                 ],
                               ),
@@ -195,15 +206,19 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                                   width: double.infinity,
                                   height: double.infinity,
                                   alignment: Alignment.centerRight,
-                                  child: RaisedButton(
-                                    highlightElevation: 0,
-                                    highlightColor: styleModel
-                                        .getBackgroundColor()['highLightColor'],
-                                    focusElevation: 0,
-                                    elevation: 0,
-                                    splashColor: Colors.transparent,
-                                    color: Colors.transparent,
-                                    onPressed: () {
+                                  child:Column(
+                                    children:<Widget>[
+                                      Flexible(
+                                        flex: 1,
+                                        child:RaisedButton(
+                                          highlightElevation: 0,
+                                          highlightColor: styleModel
+                                            .getBackgroundColor()['highLightColor'],
+                                            focusElevation: 0,
+                                            elevation: 0,
+                                          splashColor: Colors.transparent,
+                                            color: Colors.transparent,
+                                          onPressed: () {
                                       Navigator.of(context).push(
                                         new MaterialPageRoute(
                                           builder: (BuildContext context) =>
@@ -217,7 +232,7 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                                         ),
                                       );
                                     },
-                                    child: Row(
+                                          child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: <Widget>[
                                         Text(
@@ -235,6 +250,33 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                                         )
                                       ],
                                     ),
+                                  ),),
+                                      Flexible(
+                                        flex: 1,
+                                        child:Container(
+                                            alignment: Alignment.topRight,
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: <Widget>[
+                                                Text('',overflow: TextOverflow.ellipsis,
+                                                  style: styleModel.getTextStyle()[
+                                                  'smallBodyTextStyle'],),
+                                                IconButton(
+                                                    icon: Icon(
+                                                      Icons.refresh,
+                                                      size:20,
+                                                      color: styleModel.getIconColor()['themeIconColor'],
+                                                    ),
+                                                    onPressed: (){
+                                                      Request().getHomeScreenInfo();
+                                                      //homeScreenInfo
+                                                    }
+                                                )
+                                              ],
+                                            )
+                                        ),
+                                      ),
+                                ],
                                   ),
                                 ),
                               ),
