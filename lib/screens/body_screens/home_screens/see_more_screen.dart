@@ -269,6 +269,7 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                                                     ),
                                                     onPressed: (){
                                                       Request().getHomeScreenInfo();
+                                                      Request(). getStudentInfo();
                                                       //homeScreenInfo
                                                     }
                                                 )

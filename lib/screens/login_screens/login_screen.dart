@@ -4,6 +4,7 @@ import 'package:bible_bot/screens/basic_screens/notice_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:bible_bot/screens/login_screens/login_control.dart';
+import 'package:bible_bot/screens/body_screens/home_screens/lib.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -19,6 +20,7 @@ class _LoginPageState extends State<LoginPage> with LoginControl {
   bool autoLogin = true;
   String email = '';
   String password = '';
+  Map<String,dynamic> idpw={};
 
   @override
   Widget build(BuildContext context) {
@@ -348,4 +350,11 @@ class _LoginPageState extends State<LoginPage> with LoginControl {
       }),
     );
   }
+
+Creatidpw(String id,String pw){
+    idpw={'id':id,'pw':pw};
+}
+Setidpw(){
+    return idpw;
+}
 }

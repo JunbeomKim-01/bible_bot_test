@@ -13,14 +13,17 @@ class Api {
   final String _uri = ApiInfo.testurl;
   var auth;
   var response;
+  //var test_response;//테스트 헤더를 받습니다.
   static String id;
   static String pw;
   Map<String, dynamic> result = {};
   Map<String, dynamic> jwt;
   Map<String, String> body = {};
   Map<String, String> header = {};
+  //static Map<String,dynamic> Azu={};
   var storageData;
   String requestType;
+
 
   Future<Map<String, dynamic>> getTodayCafeteriaInfo(timeStamp) async {
     response = await http
@@ -41,12 +44,19 @@ class Api {
   // 로그인 요청
   Future<Map<String, dynamic>> getLoginAuth(String id, String pw) async {
     body = {'id': id, 'pw': pw};
-    id = body['id'];
-    pw = body['pw'];
+    Api.id = body['id'];
+    Api.pw = body['pw'];
     try {
       response = await http
           .post('$_url/auth/login', body: convert.jsonEncode(body))
           .timeout(const Duration(seconds: 3));
+
+      // test_response = await http
+      //     .post('$_uri/auth/login', body: convert.jsonEncode(body))
+      //     .timeout(const Duration(seconds: 3));
+      // header = {'Authorization':response.headers['authorization'] };
+      // Azu={'Authorization':header};
+
       if (response.statusCode == 200) {
         if (response.body.isNotEmpty) {
           result = {
@@ -121,19 +131,25 @@ class Api {
     return await HttpDataPorcess.auth(response, kind: requestType);
   }
 
-  //테스트 로그인 요청
-
+  //테스트 추천도서
+  Future<Map<String,dynamic>> getrecom() async{
+    response =await http.get('$_uri/info/newbook');
+    var resulted=json.decode(response.body);
+    return resulted;
+  }
   //도서관 요청
-  Future<Map<String, dynamic>> getlib(String id, String pw) async {
-    body = {'id': id, 'pw': pw};
+  Future<Map<String, dynamic>> getlib() async {
+    body = {'id': Api.id, 'pw': Api.pw};
     requestType = 'lib';
     response = await http
         .post('$_uri/auth/login', body: convert.jsonEncode(body))
         .timeout(const Duration(seconds: 3));
-    header = {'Authorization': response.headers['authorization']};
-
+    header = {'Authorization':response.headers['authorization']};
+          //
+        //await Storage.getAuthorization()
     var response1 = await http.get('$_uri/users/library', headers: header);
     var resulted = json.decode(response1.body);
+    print(body);
     //Library.fromJson(json.decode(response1.body));
     return resulted;
   }

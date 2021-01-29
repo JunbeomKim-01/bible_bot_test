@@ -7,11 +7,13 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:provider/provider.dart';
 import 'package:bible_bot/models/lib.dart';
 import 'package:bible_bot/widgets/width_division_line.dart';
+import 'package:bible_bot/screens/login_screens/login_screen.dart';
 class Lib extends StatelessWidget {
+  static String id;
+  static String pw;
   Future<Library> post;
-  String id = Api.id;
-  String pw = Api.pw;
   bool status403=false;
+  //AsyncSnapshot<dynamic> snapshot2 = Api().getrecom() as AsyncSnapshot;
 
 //401 -> 세션만료 , 500 -> 구문 분석오류(반납 책이 없음), 250-> 정상 403-> 대출목록 없음
   @override
@@ -36,32 +38,15 @@ class Lib extends StatelessWidget {
           style: styleModel.getTextStyle()['appBarTextStyle'],
         ),
       ),
-      body: FutureBuilder(
-        future:
-        //Api().getlib(id,pw),
-        Api().getlib("ygflove95", "dms!15096"),
-        //Api().getlib(id, pw),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if(snapshot.data['error']==null){
-            status403=false;
-          }else{
-            status403=true;
-          }
-          if(snapshot.hasData){
-            //print(snapshot.error);
-            if(status403){
-              return _status403(snapshot, styleModel, context,Api.pw);
-            }
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text(
-                '추천도서',
-                style: styleModel.getTextStyle()['appBarTextStyle'],
-              ),
-              Flexible(
-                flex: 3,
-                child: Swiper(
+      body: Column(
+        children: <Widget>[
+          Text('추천도서',style: styleModel.getTextStyle()['appBarTextStyle']),
+          Flexible(
+            flex: 3,
+            child: FutureBuilder(
+              future: Api().getrecom(),
+              builder: (BuildContext context,AsyncSnapshot snapshot){
+                return Swiper(
                   containerHeight: 10.0,
                   autoplay: true,
                   itemWidth: MediaQuery.of(context).size.width * 0.32,
@@ -69,43 +54,52 @@ class Lib extends StatelessWidget {
                   viewportFraction: 0.8,
                   layout: SwiperLayout.STACK,
                   pagination:
-                      SwiperPagination(alignment: Alignment.bottomRight),
-                  itemCount: 3,
-                  itemBuilder: (BuildContext context, int index) => Card(
+                  SwiperPagination(alignment: Alignment.bottomRight),
+                  itemCount: 8,
+                  itemBuilder: (BuildContext context,int index) => Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                     child: GestureDetector(
                       onTap: () {
                         //server.getReq(headerkey.toString());
-                         _showSnackBar(context,snapshot, index);
+                        _showSnackBar(context,snapshot, index);
                       },
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20.0),
                         child: Container(
                           height: 140.0,
                           width: 300.0,
-                          decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage('images/recom.png'),
-                                    fit: BoxFit.cover)),
+                          child: Image.memory(base64.decode(snapshot.data['data']['body'][index][2].toString())),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.zero,
-                  child:Text(''),
-              ),
-              Flexible(
-                flex: 6,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: snapshot.data['data']['body'].length,
-                  itemBuilder: (BuildContext context, int index) {
-                    //print(snapshot.data.toString());
+                );
+              },
+            ),
+          ),
+          WidthDivisionLine(),
+          Flexible(
+            flex: 6,
+            child: FutureBuilder(
+              future: Api().getlib(),
+              builder: (BuildContext context,AsyncSnapshot snapshot){
+                if(snapshot.data['error']==null){
+                  status403=false;
+                }else{
+                  status403=true;
+                }
+                if(snapshot.hasData){
+                  //print(snapshot.error);
+                  if(status403){
+                    return _status403(snapshot, styleModel, context,);
+                  }
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data['data']['body'].length,
+                    itemBuilder: (BuildContext context, int index) {
+                      //print(snapshot.data.toString());
                       return Card(
                         color: Colors.grey[50],
                         shape: RoundedRectangleBorder(
@@ -133,8 +127,8 @@ class Lib extends StatelessWidget {
                                 children: <Widget>[
                                   new Text(
                                     //snapshot.data['error']['title'].toString(),
-                                    snapshot.data['data']['body'][index][1].toString(),
-                                    style: TextStyle(fontWeight: FontWeight.bold)
+                                      snapshot.data['data']['body'][index][1].toString(),
+                                      style: TextStyle(fontWeight: FontWeight.bold)
                                   ),
                                   SizedBox(
                                     height: 10.0,
@@ -167,62 +161,172 @@ class Lib extends StatelessWidget {
                         ),
                       );
                     },
-                ),
-              ),
-            ],
-          );
-          }
-          else if(snapshot.hasError){
-            return _errorView(snapshot.error,styleModel);
-          }
-          else{
-            return Center(child:CupertinoActivityIndicator());
-          }
-        },
+                  );
+                }
+                else if(snapshot.hasError){
+                  return _errorView(snapshot.error,styleModel);
+                }
+                else{
+                  return Center(child:CupertinoActivityIndicator());
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
 }
-Widget _status403(AsyncSnapshot snapshot,StyleModel styleModel, BuildContext context ,String pw){
-    return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text('추천도서',
-            style: styleModel.getTextStyle()['appBarTextStyle'],),
-          Flexible(flex: 3,
-            child: Swiper(
-              containerHeight: 10.0,
-              autoplay: true,
-              itemWidth: MediaQuery.of(context).size.width * 0.32,
-              itemHeight: MediaQuery.of(context).size.height * 0.4,
-              viewportFraction: 0.8,
-              layout: SwiperLayout.STACK,
-              pagination:
-              SwiperPagination(alignment: Alignment.bottomRight),
-              itemCount: 3,
-              itemBuilder: (BuildContext context, int index) => Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                child: GestureDetector(
-                  onTap: () {
-                    //server.getReq(headerkey.toString());
-                    _showSnackBar(context, snapshot,index);
-                  },
-                  child: ClipRRect(
+ /*Widget dasd(){
+  return Column(
+    children: <Widget>[
+      Text('추천도서'),
+      WidthDivisionLine(),
+      Flexible(
+        flex: 3,
+        child: FutureBuilder(
+          future: Api().getrecom(),
+          builder: (BuildContext context,AsyncSnapshot snapshot){
+              return Swiper(
+                containerHeight: 10.0,
+                autoplay: true,
+                itemWidth: MediaQuery.of(context).size.width * 0.32,
+                itemHeight: MediaQuery.of(context).size.height * 0.4,
+                viewportFraction: 0.8,
+                layout: SwiperLayout.STACK,
+                pagination:
+                SwiperPagination(alignment: Alignment.bottomRight),
+                itemCount: snapshot.data['data']['body'].lenght,
+                itemBuilder: (BuildContext context, int index) => Card(
+                  shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
-                    child: Container(
-                      height: 140.0,
-                      width: 300.0,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage('images/recom.png'),
-                              fit: BoxFit.cover)),
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      //server.getReq(headerkey.toString());
+                      _showSnackBar(context,snapshot, index);
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Container(
+                        height: 140.0,
+                        width: 300.0,
+                        child: Image.memory(base64.decode(snapshot.data['data']['body'][index][2].toString())),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),),
+              );
+          },
+        ),
+      ),
+      WidthDivisionLine(),
+      Flexible(
+        flex: 6,
+        child: FutureBuilder(
+          future: Api().getlib(Api.id, Api.pw),
+          builder: (BuildContext context,AsyncSnapshot snapshot){
+            if(snapshot.data['error']==null){
+              status403=false;
+            }else{
+              status403=true;
+            }
+            if(snapshot.hasData){
+              //print(snapshot.error);
+              if(status403){
+                return _status403(snapshot, styleModel, context,Api.pw);
+              }
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: snapshot.data['data']['body'].length,
+                itemBuilder: (BuildContext context, int index) {
+                  //print(snapshot.data.toString());
+                  return Card(
+                    color: Colors.grey[50],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Container(
+                          width: 100.0,
+                          height: 135.0,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: Image.memory(base64.decode(snapshot.data['data']['body'][index][6]['img'].toString()),
+                                fit: BoxFit.fill,
+                                height: 130.0,
+                                width: 100.0),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              new Text(
+                                //snapshot.data['error']['title'].toString(),
+                                  snapshot.data['data']['body'][index][1].toString(),
+                                  style: TextStyle(fontWeight: FontWeight.bold)
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              Container(
+                                child: Column(children: <Widget>[
+                                  Text(
+                                    '대출일 :${snapshot.data['data']['body'][index][2]}' ,
+                                    /*TextStyle(
+                                          fontSize: 15.0,
+                                          fontStyle: FontStyle.italic),*/
+                                  ),
+                                  SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      '반납일: ${snapshot.data['data']['body'][index][3]} ',
+                                      /*TextStyle(
+                                            fontSize: 15.0,
+                                            fontStyle: FontStyle.italic),*/
+                                    ),
+                                  ),
+                                ]),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            }
+            else if(snapshot.hasError){
+              return _errorView(snapshot.error,styleModel);
+            }
+            else{
+              return Center(child:CupertinoActivityIndicator());
+            }
+          },
+        ),
+      ),
+    ],
+  );
+}*/
+data(){
+  Map<String,dynamic> data = FutureBuilder(
+      future: Api().getrecom(),
+      builder:(BuildContext context,AsyncSnapshot snapshot){
+        return snapshot.data;
+      })as Map<String,dynamic>;
+}
+Widget _status403(AsyncSnapshot snapshot,StyleModel styleModel, BuildContext context ,){
+    return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
           WidthDivisionLine(),
           Flexible(
             flex: 7,
@@ -256,9 +360,10 @@ Widget _errorView(String errorMessage,StyleModel styleModel ) {
   );
 }
 //추천 도서 받아야해
-_showSnackBar(BuildContext context,AsyncSnapshot snapshot ,index) {
+_showSnackBar(BuildContext context,AsyncSnapshot snapshot2,index) {
   final SnackBar objSnackbar = new SnackBar(
-    content: Center(
+    content:
+    Center(
       child: Material(
         elevation: 0,
         type: MaterialType.transparency,
@@ -275,28 +380,27 @@ _showSnackBar(BuildContext context,AsyncSnapshot snapshot ,index) {
             children: <Widget>[
               ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                /*child: new Image.asset(
-                  item.images,
+                child: new Image.memory(base64.decode(snapshot2.data['data']['body'][index][2].toString()),
                   height: 200.0,
                   width: 150.0,
-                ),*/
+                )
               ),
               SizedBox(
                 height: 10.0,
               ),
-              //Text('${item.name}'),
+              //Text(),//snapshot.data['body'][index][0].toString()),
               SizedBox(
                 height: 10.0,
               ),
               Text(
-               '0', //' ${item.name}',
+                snapshot2.data['data']['body'][index][0].toString(),
                 style: TextStyle(color: Colors.grey, fontSize: 15.0),
               ),
               SizedBox(
                 height: 10.0,
               ),
               Text(
-                '소개글 ',//: ${item.title}',
+                '소개글 :${snapshot2.data['data']['body'][index][1].toString()}',
                 style: TextStyle(
                   color: Colors.grey[500],
                   fontSize: 12.0,

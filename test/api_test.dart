@@ -30,9 +30,13 @@ void main() {
       await Api().getQRCode();
       expect(result['result'], true);
     });
+    test('recommand',() async{
+      var result =await Api().getrecom();
+      print(result);
+    });
 
     test('lib test', () async {
-      var result = await Api().getlib("ygflove95", "dms!15096");//ygflove95, dms!15096
+      var result = await Api().getlib();//ygflove95, dms!15096
       print(result);
     });
 
