@@ -45,6 +45,38 @@ class _DeveloperScreenState extends State<DeveloperScreen>
     'email': "kyh980909@gmail.com",
     'role': "모바일 앱 개발"
   };
+  Map<String, dynamic> issac = {
+    'id': "컴소20",
+    'koreanName': "이삭",
+    'englishName': "Sac Lee",
+    'nickname': "미래 토스트 CEO",
+    'email': "issac59122@gmail.com",
+    'role': "프론트엔드 개발"
+  };
+  Map<String, dynamic> kimjunbeom = {
+    'id': "컴소20",
+    'koreanName': "김준범",
+    'englishName': "Junbeom Kim",
+    'nickname': "성서봇 노예1호",
+    'email': "estjunbeom@gmail.com",
+    'role': "프론트엔드 개발"
+  };
+  Map<String, dynamic> wosung = {
+    'id': "컴소20",
+    'koreanName': "김우성",
+    'englishName': "",
+    'nickname': "게임 디자이너 상시 모집...",
+    'email': "detols@gmail.com",
+    'role': "벡엔드 개발"
+  };
+  Map<String, dynamic> younggi = {
+    'id': "컴소15",
+    'koreanName': "김용기",
+    'englishName': "YongKi Kim",
+    'nickname': "성서봇 샌드백",
+    'email': "ygflove@bible.ac.kr",
+    'role': "벡엔드 개발"
+  };
   bool _visible = false;
 
   @override
@@ -73,7 +105,7 @@ class _DeveloperScreenState extends State<DeveloperScreen>
       builder: (context, build) {
         return MediaQuery(
           child: DefaultTabController(
-            length: 2,
+            length: 3,
             child: new Scaffold(
               body: new NestedScrollView(
                 headerSliverBuilder:
@@ -100,7 +132,8 @@ class _DeveloperScreenState extends State<DeveloperScreen>
                       snap: true,
                       bottom: new TabBar(
                         tabs: [
-                          new Tab(text: "개발자들"),
+                          new Tab(text: "1기 개발자들"),
+                          new Tab(text: "2기 개발자들 ",),
                           new Tab(text: "도움 주신 분들"),
                         ],
                         labelStyle:
@@ -146,6 +179,32 @@ class _DeveloperScreenState extends State<DeveloperScreen>
                             ),
                           ],
                         )),
+                    Container(
+                      color: styleModel
+                          .getBackgroundColor()['backgroundColorLevel2'],
+                      width: double.infinity,
+                      height: double.infinity,
+                      child: Column(
+                        children: <Widget>[
+                          Flexible(
+                            flex: 1,
+                            child: developerLayout(context,younggi ),
+                          ),
+                          Flexible(
+                            flex: 1,
+                            child: developerLayout(context,wosung ),
+                          ),
+                          Flexible(
+                            flex: 1,
+                            child: developerLayout(context, kimjunbeom),
+                          ),
+                          Flexible(
+                            flex: 1,
+                            child: developerLayout(context,issac),
+                          ),
+                        ],
+                      ),
+                    ),
                     Container(
                         color: styleModel
                             .getBackgroundColor()['backgroundColorLevel2'],
