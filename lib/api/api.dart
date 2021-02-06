@@ -10,7 +10,7 @@ import '../util/http_data_process.dart';
 
 class Api {
   final String _url = ApiInfo.url;
-  final String _uri = ApiInfo.testurl;
+  final String _test_url = ApiInfo.testurl;
   var auth;
   var response;
   //var test_response;//테스트 헤더를 받습니다.
@@ -133,7 +133,7 @@ class Api {
 
   //테스트 추천도서
   Future<Map<String,dynamic>> getrecom() async{
-    response =await http.get('$_uri/info/newbook');
+    response =await http.get('$_test_url/info/newbook');
     var resulted=json.decode(response.body);
     return resulted;
   }
@@ -142,12 +142,12 @@ class Api {
     body = {'id': Api.id, 'pw': Api.pw};
     requestType = 'lib';
     response = await http
-        .post('$_uri/auth/login', body: convert.jsonEncode(body))
+        .post('$_test_url/auth/login', body: convert.jsonEncode(body))
         .timeout(const Duration(seconds: 3));
     header = {'Authorization':response.headers['authorization']};
           //
         //await Storage.getAuthorization()
-    var response1 = await http.get('$_uri/users/library', headers: header);
+    var response1 = await http.get('$_test_url/users/library', headers: header);
     var resulted = json.decode(response1.body);
     print(body);
     //Library.fromJson(json.decode(response1.body));

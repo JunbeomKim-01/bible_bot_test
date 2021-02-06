@@ -314,8 +314,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   Icons.refresh,
                   color: styleModel.getIconColor()['themeIconColor'],
                 ),
-                onPressed: () {
+                onPressed: () {setState(() {
                   _chapelProvider.getChapel();
+                });
                 },
               ),
             ),

@@ -64,7 +64,7 @@ class _DeveloperScreenState extends State<DeveloperScreen>
   Map<String, dynamic> wosung = {
     'id': "컴소20",
     'koreanName': "김우성",
-    'englishName': "",
+    'englishName': "Wooseung Kim",
     'nickname': "게임 디자이너 상시 모집...",
     'email': "detols@gmail.com",
     'role': "벡엔드 개발"

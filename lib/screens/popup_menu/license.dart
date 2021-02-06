@@ -88,7 +88,10 @@ class _LicenseState extends State<License> {
                   'https://pub.dev/packages/syncfusion_flutter_core',
                   styleModel),
               buildExpansionTile('date_range_picker',
-                  'https://pub.dev/packages/date_range_picker', styleModel)
+                  'https://pub.dev/packages/date_range_picker', styleModel),
+
+              buildExpansionTile('google_maps_flutter',
+                  'https://pub.dev/packages/google_maps_flutter', styleModel)
             ],
           ),
         ));

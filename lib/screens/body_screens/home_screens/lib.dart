@@ -46,36 +46,48 @@ class Lib extends StatelessWidget {
             child: FutureBuilder(
               future: Api().getrecom(),
               builder: (BuildContext context,AsyncSnapshot snapshot){
-                return Swiper(
-                  containerHeight: 10.0,
-                  autoplay: true,
-                  itemWidth: MediaQuery.of(context).size.width * 0.32,
-                  itemHeight: MediaQuery.of(context).size.height * 0.4,
-                  viewportFraction: 0.8,
-                  layout: SwiperLayout.STACK,
-                  pagination:
-                  SwiperPagination(alignment: Alignment.bottomRight),
-                  itemCount: 8,
-                  itemBuilder: (BuildContext context,int index) => Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        //server.getReq(headerkey.toString());
-                        _showSnackBar(context,snapshot, index);
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: Container(
-                          height: 140.0,
-                          width: 300.0,
-                          child: Image.memory(base64.decode(snapshot.data['data']['body'][index][2].toString())),
+                if(snapshot.hasData) {
+                  return Swiper(
+                    containerHeight: 10.0,
+                    autoplay: true,
+                    itemWidth: MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.32,
+                    itemHeight: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.4,
+                    viewportFraction: 0.8,
+                    layout: SwiperLayout.STACK,
+                    pagination:
+                    SwiperPagination(alignment: Alignment.bottomRight),
+                    itemCount: 8,
+                    itemBuilder: (BuildContext context, int index) =>
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              //server.getReq(headerkey.toString());
+                              _showSnackBar(context, snapshot, index);
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20.0),
+                              child: Container(
+                                height: 140.0,
+                                width: 300.0,
+                                child: Image.memory(base64.decode(
+                                    snapshot.data['data']['body'][index][2]
+                                        .toString())),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                );
+                  );
+                }
+                return Center(child:CircularProgressIndicator());
               },
             ),
           ),
@@ -85,12 +97,13 @@ class Lib extends StatelessWidget {
             child: FutureBuilder(
               future: Api().getlib(),
               builder: (BuildContext context,AsyncSnapshot snapshot){
+                if(snapshot.hasData){
                 if(snapshot.data['error']==null){
                   status403=false;
                 }else{
                   status403=true;
                 }
-                if(snapshot.hasData){
+
                   //print(snapshot.error);
                   if(status403){
                     return _status403(snapshot, styleModel, context,);

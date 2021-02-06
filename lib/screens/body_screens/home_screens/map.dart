@@ -35,14 +35,25 @@ class MapState extends State<Map> {
           style: styleModel.getTextStyle()['appBarTextStyle'],
         ),
       ),
-      body: Stack(
+      body:Column(
         children: <Widget>[
-          _buildGoogleMap(context),
-          _zoomminusfunction(),
-          _zoomplusfunction(),
-          _buildContainer(),
+          Flexible(
+            flex: 1,
+          child: Center(
+            child: Text('업데이트 예정입니다 :)',style: styleModel.getTextStyle()['appBarTextStyle'],),
+          ),),
+          Flexible(
+            flex: 16,child: Stack(
+            children: <Widget>[
+              _buildGoogleMap(context),
+              _zoomminusfunction(),
+              _zoomplusfunction(),
+              //_buildContainer(),
+            ],
+          ),),
         ],
       ),
+      
     );
   }
   Widget _zoomminusfunction() {
@@ -90,24 +101,29 @@ class MapState extends State<Map> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
-                 'https://www.google.com/maps/uv?pb=!1s0x357cb9148acb7fd5%3A0xea76e490fd385a5d!3m1!7e115!4shttps%3A%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipMbzhhR2iyak0-PdnwcL8cKavMqEUvGRi7-_Gba%3Dw260-h175-n-k-no!5z64W47JuQIOunm-ynkSAtIEdvb2dsZSDqsoDsg4k!15sCgIgAQ&imagekey=!1e10!2sAF1QipMbzhhR2iyak0-PdnwcL8cKavMqEUvGRi7-_Gba&hl=ko#', 37.656604494993715, 127.06553379897117,"노원목고기집"),
+                 'https://lh5.googleusercontent.com/p/AF1QipNopffaAfF7r1uYKiDWyTUf16FPOwJ3TTmOJ6Ou=w408-h306-k-no', 37.65078009057755, 127.06205199833731
+                  ,"국시집(시장풍경)"),
             ),
             SizedBox(width: 10.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
-                  "https://www.google.com/maps/uv?pb=!1s0x357cb9154d29b099:0x8c2cc43dcb8e9b98!3m1!7e115!4shttps://lh5.googleusercontent.com/p/AF1QipNgv-CT7rfkEqjv3ziSRKJIYCggeSESUL5Asgw%3Dw260-h175-n-k-no!5z64W47JuQIOunm-ynkSAtIEdvb2dsZSDqsoDsg4k!15zQ2dJZ0FRPT0&imagekey=!1e10!2sAF1QipNgv-CT7rfkEqjv3ziSRKJIYCggeSESUL5Asgw&hl=ko",
-                  37.956604494993715, 128.06553379897117,"시골애"),
+                  "https://lh5.googleusercontent.com/p/AF1QipNa5fnaH0U3_dOReY2stJ5beeIas8rW7CzRmplN=w408-h306-k-no",
+                  37.65017499904077, 127.06218171139746
+                  ,"밀알 생돈까스"),
             ),
             SizedBox(width: 10.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
-                  "https://www.google.com/maps/uv?pb=!1s0x357cb9148acc7fb3:0x9e3890a3e563933a!3m1!7e115!4shttps://lh5.googleusercontent.com/p/AF1QipPt7DtXf00DJiqqsTEqPlJjYjISIn49L1-Bub4o%3Dw260-h175-n-k-no!5z64W47JuQIOunm-ynkSAtIEdvb2dsZSDqsoDsg4k!15zQ2dJZ0FRPT0&imagekey=!1e10!2sAF1QipPt7DtXf00DJiqqsTEqPlJjYjISIn49L1-Bub4o&hl=ko",
-                  38.656604494993715, 129.06553379897117,"명동찌개마을"),
+                  "https://lh5.googleusercontent.com/p/AF1QipOtHBl7SK7ab-gdTG5GHRkIQDOT5Q8gM-PgcCD2=w426-h240-k-no",
+                  37.65007633934943, 127.06125358321037
+                  ,"우거지 품은 순대국"),
             ),
             SizedBox(width: 10.0),
             Padding(padding: const EdgeInsets.all(8.0),
+              child:_boxes("https://lh5.googleusercontent.com/p/AF1QipPKQtr1KB6-Bt2cieeCZmeoO80AqMpaOSgtl7t3=w156-h96-p-k-no", 37.65010347859033, 127.06188964982374
+                  , "하이포크 "),
             ),
           ],
         ),
@@ -258,14 +274,15 @@ class MapState extends State<Map> {
           _controller.complete(controller);
         },
         markers: {
-          KBUMarker,MokGOGIMarker,SIGOLMarker,
+          KBUMarker,GuGkMarker,MatMarker,MuMarker,noone1Marker,noone2Marker,noone3Marker,noone4Marker,noone5Marker,noone6Marker
+          ,noone7Marker,noone8Marker,noone9Marker,noone10Marker
         },
       ),
     );
   }
   Future<void> _gotoLocation(double lat,double long) async {
     final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(lat, long), zoom: 15,tilt: 50.0,
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(lat, long), zoom: 20,tilt: 50.0,
       bearing: 45.0,)));
   }
 }
@@ -274,55 +291,113 @@ Marker KBUMarker=Marker(
   markerId: MarkerId('한국성서대'),
   position: LatLng(37.64871447942806,127.06436281430499),
   infoWindow: InfoWindow(title:'한국성서대'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
-);
-Marker MokGOGIMarker = Marker(
-  markerId: MarkerId('노원목고기집'),
-  position: LatLng(37.656604494993715, 127.06553379897117),
-  infoWindow: InfoWindow(title: '노원목고기집'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(
-    BitmapDescriptor.hueViolet,
-  ),
-);
-Marker SIGOLMarker = Marker(
-  markerId: MarkerId('시골애'),
-  position: LatLng(37.656604494993715, 127.08553379897117),
-  infoWindow: InfoWindow(title: '시골애'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(
-    BitmapDescriptor.hueViolet,
-  ),
-);
-Marker MUENMarker = Marker(
-  markerId: MarkerId('명동찌개마을'),
-  position: LatLng(37.356604494993715, 127.16553379897117),
-  infoWindow: InfoWindow(title: '명동찌개마을'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(
-    BitmapDescriptor.hueViolet,
-  ),
+  icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
 );
 
-//노원 Marker
-
+Marker GuGkMarker = Marker(
+  markerId: MarkerId('국시집(시장풍경)'),
+  position: LatLng(37.65078009057755, 127.06205199833731),
+  infoWindow: InfoWindow(title: '국시집(시장풍경)'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueViolet,
+  ),
+);
+Marker MatMarker = Marker(
+  markerId: MarkerId('맷돌 순두부'),
+  position: LatLng(37.649511187086, 127.06232741281177),
+  infoWindow: InfoWindow(title: '맷돌 순두부'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueViolet,
+  ),
+);
+Marker MuMarker = Marker(
+  markerId: MarkerId('명동칼국수'),
+  position: LatLng(37.64901083170704, 127.06199876741636),
+  infoWindow: InfoWindow(title: '명동칼국수'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueViolet,
+  ),
+);
 Marker noone1Marker = Marker(
-  markerId: MarkerId('아무 맛집'),
-  position: LatLng(39.656604494993715, 127.06553379897117),
-  infoWindow: InfoWindow(title: '아무 맛집'),
+  markerId: MarkerId('미쳐버린파닭'),
+  position: LatLng(37.66174648303247, 127.06663869713246),
+  infoWindow: InfoWindow(title: '미쳐버린파닭'),
   icon: BitmapDescriptor.defaultMarkerWithHue(
     BitmapDescriptor.hueViolet,
   ),
 );
 Marker noone2Marker = Marker(
-  markerId: MarkerId('맛집이여'),
-  position: LatLng(40.656604494993715, 128.06553379897117),
-  infoWindow: InfoWindow(title: '맛집이여'),
+  markerId: MarkerId('밀알 생돈까스'),
+  position: LatLng(37.65017499904077, 127.06218171139746),
+  infoWindow: InfoWindow(title: '밀알 생돈까스'),
   icon: BitmapDescriptor.defaultMarkerWithHue(
     BitmapDescriptor.hueViolet,
   ),
 );
 Marker noone3Marker = Marker(
-  markerId: MarkerId('맛있어요'),
-  position: LatLng(35.656604494993715, 123.06553379897117),
-  infoWindow: InfoWindow(title: '맛있어요'),
+  markerId: MarkerId('베스킨라빈스 '),
+  position: LatLng(37.64865446006624, 127.06201908440859),
+  infoWindow: InfoWindow(title: '베스킨라빈스 '),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueViolet,
+  ),
+);
+Marker noone4Marker = Marker(
+  markerId: MarkerId('수유리우동'),
+  position: LatLng(37.650430880416, 127.06153101110037
+  ),
+  infoWindow: InfoWindow(title: '수유리우동'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueViolet,
+  ),
+);
+Marker noone5Marker = Marker(
+  markerId: MarkerId('신화쭈꾸미'),
+  position: LatLng(37.64973867755217, 127.06070576722144
+  ),
+  infoWindow: InfoWindow(title: '신화쭈꾸미'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueViolet,
+  ),
+);
+Marker noone6Marker = Marker(
+  markerId: MarkerId('와플대학'),
+  position: LatLng( 37.65346081954191, 127.06050169876909),
+  infoWindow: InfoWindow(title: '와플대학'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueViolet,
+  ),
+);
+Marker noone7Marker = Marker(
+  markerId: MarkerId('우거지 품은 순대국'),
+  position: LatLng(37.65007633934943, 127.06125358321037
+  ),
+  infoWindow: InfoWindow(title: '우거지 품은 순대국'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueViolet,
+  ),
+);
+Marker noone8Marker = Marker(
+  markerId: MarkerId('피자팩트'),
+  position: LatLng(37.657299391758215, 127.06985575508864),
+  infoWindow: InfoWindow(title: '피자팩트'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueViolet,
+  ),
+);
+Marker noone9Marker = Marker(
+  markerId: MarkerId('하이포크'),
+  position: LatLng(37.65010347859033,127.06188964982374
+  ),
+  infoWindow: InfoWindow(title: '하이포크'),
+  icon: BitmapDescriptor.defaultMarkerWithHue(
+    BitmapDescriptor.hueViolet,
+  ),
+);
+Marker noone10Marker = Marker(
+  markerId: MarkerId('호밀호두 '),
+  position: LatLng(37.649660489291676, 127.06217035372705),
+  infoWindow: InfoWindow(title: '호밀호두 '),
   icon: BitmapDescriptor.defaultMarkerWithHue(
     BitmapDescriptor.hueViolet,
   ),

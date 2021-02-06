@@ -25,6 +25,8 @@ class _InitialScreenState extends State<InitialScreen> {
   String appBarTitleText = "성서봇";
   List<dynamic> usablePlace;
   ChapelProvider _chapelProvider;
+  String allegeTitleText = "FAQ";
+  String appbarContextText = "Q: 로그인 화면 로딩이 오래걸려요.\nA: 조치중입니다.\nQ: server error 알림이 뜨면서 어플에 접속하지 못해요.\nA: 학교 와이파이의 네트워크 환경으로 접속에러가 발생합니다. 모바일 데이터의 네트워크 환경을 이용해주세요.";
 
   void _onItemTapped(int index) {
     setState(() {
@@ -35,11 +37,15 @@ class _InitialScreenState extends State<InitialScreen> {
       case 0:
         setState(() {
           appBarTitleText = "성서봇";
+          allegeTitleText = "FAQ";
+          appbarContextText = "Q: 로그인 화면 로딩이 오래걸려요.\n\nA: 조치중입니다.\n\nQ: server error 알림이 뜨면서 어플에 접속하지 못해요.\n\nA: 학교 와이파이의 네트워크 환경으로 접속에러가 발생합니다. 모바일 데이터의 네트워크 환경을 이용해주세요.";
+
         });
         break;
       case 1:
         setState(() {
           appBarTitleText = "모바일 학생증";
+          allegeTitleText= "모바일 학생증";
         });
         break;
       case 2:
@@ -141,8 +147,7 @@ class _InitialScreenState extends State<InitialScreen> {
             style: styleModel.getTextStyle()['appBarTextStyle'],
           ),
           elevation: 0,
-
-          actions: appBarTitleText == '모바일 학생증'
+          actions: appBarTitleText == '모바일 학생증'||appBarTitleText =='성서봇'
               ? <Widget>[
                   IconButton(
                     icon: Icon(
@@ -156,22 +161,32 @@ class _InitialScreenState extends State<InitialScreen> {
                           return AlertDialog(
                             backgroundColor: styleModel
                                 .getBackgroundColor()['backgroundColorLevel2'],
-                            title: Text('모바일 학생증 사용가능처',
+                            shape: RoundedRectangleBorder(borderRadius:  BorderRadius.circular(10)),
+                            title: Text(allegeTitleText,
                                 style: styleModel
                                     .getTextStyle()['bodyTitleTextStyle']),
                             content: Container(
-                              width: styleModel
+                              width: appBarTitleText == '성서봇' ? styleModel
+                                  .getContextSize()['screenWidthLevel6']: styleModel
                                   .getContextSize()['screenWidthLevel9'],
-                              height: styleModel
-                                  .getContextSize()['screenHeightLevel9'],
-                              child: ListView.builder(
+                              height:appBarTitleText == '성서봇' ? styleModel
+                                  .getContextSize()['screenWidthLevel6']: styleModel
+                                  .getContextSize()['screenWidthLevel9'],
+                              child: appBarTitleText == '모바일 학생증' ? ListView.builder(
                                   itemCount: usablePlace.length,
                                   itemBuilder: (context, index) {
                                     return Text(usablePlace[index],
                                         style: styleModel.getTextStyle(
                                             fontWeight: FontWeight
                                                 .normal)['bodyTextStyle']);
-                                  }),
+                                  }): appBarTitleText == '성서봇' ?
+                                    ListView(
+                                      children: [Text(appbarContextText,
+                                          style: styleModel.getTextStyle(
+                                              fontWeight: FontWeight
+                                                    .normal)['bodyTextStyle']),
+                                                  ],
+                                    ) :null,
                             ),
                           );
                         },

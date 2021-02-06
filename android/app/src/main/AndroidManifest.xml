@@ -19,10 +19,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCg_h5JvVUTISs5SxXJfNgsKdN8VV9oip8"/>
-        <!-- TODO: kako API key를 입력 -->
-        <meta-data
-            android:name="com.kakao.sdk.AppKey"
-            android:value="476fc39ee883d218bbf5a4d394f29c9e"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

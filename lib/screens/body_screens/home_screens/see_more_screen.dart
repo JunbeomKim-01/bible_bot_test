@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:bible_bot/api/api.dart';
 import 'package:bible_bot/communications/home_screen_information.dart';
 import 'package:bible_bot/communications/user_information.dart';
 import 'package:bible_bot/models/style_model.dart';
@@ -37,6 +40,7 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
     HomeScreenInfomation homeScreenInfo =
         Provider.of<HomeScreenInfomation>(context);
     String themeData = Provider.of<String>(context);
+    String money;
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -184,12 +188,35 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                                         child: Padding(
                                           padding:
                                               const EdgeInsets.only(left: 20.0),
-                                          child: Text(
-                                            "${showAmount(homeScreenInfo.balance)}원",
-                                            overflow: TextOverflow.ellipsis,
-                                            style: styleModel.getTextStyle()[
-                                                'subtitleTextStyle'],
-                                          ),
+                                          child: FutureBuilder(
+                                            future: Api().getBalance(),
+                                            builder: (context,snapshot){
+                                              if(snapshot.hasData) {
+                                                // print(jsonDecode(snapshot.data['data'])['data']['balance']);
+                                                return Text(
+                                                  //"${showAmount(money)}원",
+                                                  '${showAmount(jsonDecode(
+                                                      snapshot
+                                                          .data['data'])['data']['balance'])}원',
+                                                  overflow: TextOverflow
+                                                      .ellipsis,
+                                                  style: styleModel
+                                                      .getTextStyle()[
+                                                  'subtitleTextStyle'],
+                                                );
+                                              }
+                                              return
+                                                Row(mainAxisAlignment: MainAxisAlignment.start ,
+                                                  children: <Widget>[
+                                                  Container(
+                                                    width: 30,
+                                                      height: 30,
+                                                      child:CircularProgressIndicator()
+                                                  ),
+                                                ],
+                                              );
+                                            }
+                                          )
                                         ),
                                       ),
                                     ),
@@ -267,10 +294,10 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                                                       size:20,
                                                       color: styleModel.getIconColor()['themeIconColor'],
                                                     ),
-                                                    onPressed: (){
-                                                      Request().getHomeScreenInfo();
-                                                      Request(). getStudentInfo();
-                                                      //homeScreenInfo
+                                                    onPressed: () {
+                                                      setState(() {
+
+                                                      });
                                                     }
                                                 )
                                               ],
@@ -867,7 +894,8 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                               ),
                               Flexible(
                                 flex: 1,
-                                child: RaisedButton(
+                                child: Container()),
+                                /*RaisedButton(
                                   highlightElevation: 0,
                                   highlightColor: styleModel
                                       .getBackgroundColor()['highLightColor'],
@@ -925,7 +953,7 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                                     ),
                                   ),
                                 ),
-                              ),
+                              ),*/
                               Flexible(
                                 flex: 1,
                                 child: Container(),

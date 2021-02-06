@@ -125,13 +125,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.26"
-  flutter_kakao_map:
-    dependency: "direct main"
-    description:
-      name: flutter_kakao_map
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.4"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
