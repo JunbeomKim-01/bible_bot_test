@@ -87,7 +87,7 @@ class Lib extends StatelessWidget {
                         ),
                   );
                 }
-                return Center(child:CircularProgressIndicator());
+                return Center(child:CupertinoActivityIndicator());
               },
             ),
           ),
@@ -374,9 +374,61 @@ Widget _errorView(String errorMessage,StyleModel styleModel ) {
 }
 //추천 도서 받아야해
 _showSnackBar(BuildContext context,AsyncSnapshot snapshot2,index) {
+  if(snapshot2.data['data']['body'][index][1]==null){
+    final SnackBar objSnackbar = new SnackBar(
+      content: Center(
+        child: Material(
+          elevation: 0,
+          type: MaterialType.transparency,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+            ),
+            padding: EdgeInsets.all(15),
+            width: MediaQuery.of(context).size.width * 0.7,
+            height: 500.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: new Image.memory(base64.decode(snapshot2.data['data']['body'][index][2].toString()),
+                      height: 200.0,
+                      width: 150.0,
+                    )
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                //Text(),//snapshot.data['body'][index][0].toString()),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Text(
+                  snapshot2.data['data']['body'][index][0].toString(),
+                  style: TextStyle(color: Colors.grey, fontSize: 15.0),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Text(
+                  '소개글 :소개글이 없습니당:)}',
+                  style: TextStyle(
+                    color: Colors.grey[500],
+                    fontSize: 12.0,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
   final SnackBar objSnackbar = new SnackBar(
-    content:
-    Center(
+    content: Center(
       child: Material(
         elevation: 0,
         type: MaterialType.transparency,

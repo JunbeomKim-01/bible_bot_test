@@ -14,6 +14,7 @@ import 'package:bible_bot/screens/popup_menu/setting_list/theme.dart';
 import 'package:bible_bot/util/show_amount.dart';
 import 'package:bible_bot/util/storage.dart';
 import 'package:bible_bot/widgets/flutter_restart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
@@ -211,7 +212,7 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                                                   Container(
                                                     width: 30,
                                                       height: 30,
-                                                      child:CircularProgressIndicator()
+                                                      child:CupertinoActivityIndicator()
                                                   ),
                                                 ],
                                               );

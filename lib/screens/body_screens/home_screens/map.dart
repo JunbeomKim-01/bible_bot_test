@@ -30,6 +30,16 @@ class MapState extends State<Map> {
             color: styleModel.getBackgroundColor()['reversalColorLevel1']),
         backgroundColor:
         styleModel.getBackgroundColor()['backgroundColorLevel1'],
+        actions: <Widget>[
+          /*IconButton(
+            icon: Icon(Icons.add),
+            color:styleModel.getBackgroundColor()['reversalColorLevel1'],
+            onPressed: (){
+              _buldGrid(context);
+            },
+          ) ,*/
+
+        ],
         title: Text(
           '제휴업체 ',
           style: styleModel.getTextStyle()['appBarTextStyle'],
@@ -43,7 +53,8 @@ class MapState extends State<Map> {
             child: Text('업데이트 예정입니다 :)',style: styleModel.getTextStyle()['appBarTextStyle'],),
           ),),
           Flexible(
-            flex: 16,child: Stack(
+            flex: 16,
+            child: Stack(
             children: <Widget>[
               _buildGoogleMap(context),
               _zoomminusfunction(),
@@ -51,11 +62,36 @@ class MapState extends State<Map> {
               //_buildContainer(),
             ],
           ),),
+          Flexible(
+            flex: 7,
+              child:GridView.builder(
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 300,
+                      childAspectRatio: 5 / 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10),
+                  itemCount: 15,
+                  itemBuilder: (BuildContext ctx, index) {
+                    return Container(
+                      alignment: Alignment.topCenter,
+                      child: _boxes(
+                          'https://lh5.googleusercontent.com/p/AF1QipNopffaAfF7r1uYKiDWyTUf16FPOwJ3TTmOJ6Ou=w408-h306-k-no', 37.65078009057755, 127.06205199833731
+                          ,"국시집(시장풍경)"),
+                      decoration: BoxDecoration(
+                          //color: Colors.amber,
+                          borderRadius: BorderRadius.circular(15)),
+                    );
+                  },),),
         ],
       ),
       
     );
   }
+
+  Widget sad(){
+
+  }
+
   Widget _zoomminusfunction() {
     return Align(
       alignment: Alignment.topLeft,
@@ -87,6 +123,28 @@ class MapState extends State<Map> {
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(37.64871447942806, 127.06436281430499), zoom: zoomVal)));
   }
 
+  Widget _buldGrid(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(title: Text('메뉴'),),
+      body: GridView.builder(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 300,
+            childAspectRatio: 5 / 2,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10),
+        itemCount: 15,
+        itemBuilder: (BuildContext ctx, index) {
+          return Container(
+            alignment: Alignment.topCenter,
+            child: _boxes(
+                'https://lh5.googleusercontent.com/p/AF1QipNopffaAfF7r1uYKiDWyTUf16FPOwJ3TTmOJ6Ou=w408-h306-k-no', 37.65078009057755, 127.06205199833731
+                ,"국시집(시장풍경)"),
+            decoration: BoxDecoration(
+              //color: Colors.amber,
+                borderRadius: BorderRadius.circular(15)),
+          );
+        }),);
+  }
 
   Widget _buildContainer() {
     return Align(
@@ -97,14 +155,12 @@ class MapState extends State<Map> {
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: <Widget>[
-            SizedBox(width: 10.0),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(4.0),
               child: _boxes(
                  'https://lh5.googleusercontent.com/p/AF1QipNopffaAfF7r1uYKiDWyTUf16FPOwJ3TTmOJ6Ou=w408-h306-k-no', 37.65078009057755, 127.06205199833731
                   ,"국시집(시장풍경)"),
             ),
-            SizedBox(width: 10.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
@@ -112,7 +168,6 @@ class MapState extends State<Map> {
                   37.65017499904077, 127.06218171139746
                   ,"밀알 생돈까스"),
             ),
-            SizedBox(width: 10.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
@@ -120,7 +175,6 @@ class MapState extends State<Map> {
                   37.65007633934943, 127.06125358321037
                   ,"우거지 품은 순대국"),
             ),
-            SizedBox(width: 10.0),
             Padding(padding: const EdgeInsets.all(8.0),
               child:_boxes("https://lh5.googleusercontent.com/p/AF1QipPKQtr1KB6-Bt2cieeCZmeoO80AqMpaOSgtl7t3=w156-h96-p-k-no", 37.65010347859033, 127.06188964982374
                   , "하이포크 "),
@@ -130,7 +184,6 @@ class MapState extends State<Map> {
       ),
     );
   }
-
   Widget _boxes(String _image, double lat,double long,String restaurantName) {
     return  GestureDetector(
       onTap: () {
@@ -147,8 +200,8 @@ class MapState extends State<Map> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(
-                    width: 180,
-                    height: 200,
+                    width: 100,
+                    height: 130,
                     child: ClipRRect(
                       borderRadius: new BorderRadius.circular(24.0),
                       child: Image(
@@ -168,7 +221,6 @@ class MapState extends State<Map> {
       ),
     );
   }
-
   Widget myDetailsContainer1(String restaurantName) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -262,7 +314,6 @@ class MapState extends State<Map> {
       ],
     );
   }
-
   Widget _buildGoogleMap(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height,
@@ -293,7 +344,6 @@ Marker KBUMarker=Marker(
   infoWindow: InfoWindow(title:'한국성서대'),
   icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
 );
-
 Marker GuGkMarker = Marker(
   markerId: MarkerId('국시집(시장풍경)'),
   position: LatLng(37.65078009057755, 127.06205199833731),
