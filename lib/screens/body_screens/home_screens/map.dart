@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bible_bot/models/style_model.dart';
+import 'package:bible_bot/widgets/width_division_line.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -62,14 +63,17 @@ class MapState extends State<Map> {
               //_buildContainer(),
             ],
           ),),
+          WidthDivisionLine(),
           Flexible(
             flex: 7,
-              child:GridView.builder(
+              child:Scaffold(
+                backgroundColor: styleModel.getBackgroundColor()['backgroundColorLevel1'],
+                body: GridView.builder(
                   gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 300,
-                      childAspectRatio: 5 / 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10),
+                      maxCrossAxisExtent: 350,
+                      childAspectRatio: 4 / 2,
+                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 5),
                   itemCount: 15,
                   itemBuilder: (BuildContext ctx, index) {
                     return Container(
@@ -78,10 +82,11 @@ class MapState extends State<Map> {
                           'https://lh5.googleusercontent.com/p/AF1QipNopffaAfF7r1uYKiDWyTUf16FPOwJ3TTmOJ6Ou=w408-h306-k-no', 37.65078009057755, 127.06205199833731
                           ,"국시집(시장풍경)"),
                       decoration: BoxDecoration(
-                          //color: Colors.amber,
+                        //color: Colors.amber,
                           borderRadius: BorderRadius.circular(15)),
                     );
-                  },),),
+                  },),
+              )),
         ],
       ),
       
@@ -130,8 +135,8 @@ class MapState extends State<Map> {
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 300,
             childAspectRatio: 5 / 2,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10),
+            crossAxisSpacing: 20,
+            mainAxisSpacing:10),
         itemCount: 15,
         itemBuilder: (BuildContext ctx, index) {
           return Container(
@@ -151,12 +156,12 @@ class MapState extends State<Map> {
       alignment: Alignment.bottomLeft,
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 20.0),
-        height: 150.0,
+        height: 130.0,
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(4.0),
+              padding: const EdgeInsets.all(8.0),
               child: _boxes(
                  'https://lh5.googleusercontent.com/p/AF1QipNopffaAfF7r1uYKiDWyTUf16FPOwJ3TTmOJ6Ou=w408-h306-k-no', 37.65078009057755, 127.06205199833731
                   ,"국시집(시장풍경)"),
@@ -200,8 +205,8 @@ class MapState extends State<Map> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(
-                    width: 100,
-                    height: 130,
+                    width: 200,
+                    height: 200,
                     child: ClipRRect(
                       borderRadius: new BorderRadius.circular(24.0),
                       child: Image(
@@ -231,12 +236,22 @@ class MapState extends State<Map> {
               child: Text(restaurantName,
                 style: TextStyle(
                     color: Color(0xff6200ee),
-                    fontSize: 24.0,
+                    fontSize: 30.0,
                     fontWeight: FontWeight.bold),
               )),
         ),
-        SizedBox(height:5.0),
+        SizedBox(height:10.0),
         Container(
+          child: Row(
+            children: <Widget>[
+            Container(
+              child: Text(' ~%off!',
+              style: TextStyle(fontSize: 30,fontStyle: FontStyle.italic,fontWeight: FontWeight.w300),),
+            ),
+          ],),
+        ),
+        SizedBox(height: 10.0,),
+        /*Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -310,7 +325,7 @@ class MapState extends State<Map> {
                   color: Colors.black54,
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold),
-            )),
+            )),*/
       ],
     );
   }

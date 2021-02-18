@@ -1,10 +1,14 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 String showAmount(String money) {
   String price = money;
   String revisedPrice = "";
   String reversedPrice = "";
   int count = 0;
-
-
+/*if(money.length==null){
+  return null;
+}*/
   if(money[0] == '-' && money.length < 5){
     return money;
   }else {

@@ -28,7 +28,7 @@ class Lib extends StatelessWidget {
     return Scaffold(
       backgroundColor: styleModel.getBackgroundColor()['backgroundColorLevel1'],
       appBar: AppBar(
-        elevation: 1,
+        elevation: 0,
         iconTheme: IconThemeData(
             color: styleModel.getBackgroundColor()['reversalColorLevel1']),
         backgroundColor:
@@ -40,7 +40,8 @@ class Lib extends StatelessWidget {
       ),
       body: Column(
         children: <Widget>[
-          Text('추천도서',style: styleModel.getTextStyle()['appBarTextStyle']),
+          WidthDivisionLine(),
+          Flexible(flex: 1,child:Text('추천도서',style: styleModel.getTextStyle()['appBarTextStyle']),),
           Flexible(
             flex: 3,
             child: FutureBuilder(
@@ -53,12 +54,12 @@ class Lib extends StatelessWidget {
                     itemWidth: MediaQuery
                         .of(context)
                         .size
-                        .width * 0.32,
-                    itemHeight: MediaQuery
+                        .width * 0.3,
+                    itemHeight:MediaQuery
                         .of(context)
                         .size
-                        .height * 0.4,
-                    viewportFraction: 0.8,
+                        .height * 0.3,
+                    viewportFraction: 0.4,
                     layout: SwiperLayout.STACK,
                     pagination:
                     SwiperPagination(alignment: Alignment.bottomRight),
@@ -66,7 +67,7 @@ class Lib extends StatelessWidget {
                     itemBuilder: (BuildContext context, int index) =>
                         Card(
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
+                            borderRadius: BorderRadius.circular(15.0),
                           ),
                           child: GestureDetector(
                             onTap: () {
@@ -74,13 +75,11 @@ class Lib extends StatelessWidget {
                               _showSnackBar(context, snapshot, index);
                             },
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20.0),
+                              borderRadius: BorderRadius.circular(15.0),
                               child: Container(
-                                height: 140.0,
-                                width: 300.0,
                                 child: Image.memory(base64.decode(
                                     snapshot.data['data']['body'][index][2]
-                                        .toString())),
+                                        .toString()),fit: BoxFit.cover,),
                               ),
                             ),
                           ),
@@ -391,13 +390,13 @@ _showSnackBar(BuildContext context,AsyncSnapshot snapshot2,index) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                ClipRRect(
+                Flexible(flex: 4,child: ClipRRect(
                     borderRadius: BorderRadius.circular(5),
                     child: new Image.memory(base64.decode(snapshot2.data['data']['body'][index][2].toString()),
-                      height: 200.0,
-                      width: 150.0,
+                      fit: BoxFit.fitWidth,
                     )
-                ),
+                ),),
+                WidthDivisionLine(),
                 SizedBox(
                   height: 10.0,
                 ),

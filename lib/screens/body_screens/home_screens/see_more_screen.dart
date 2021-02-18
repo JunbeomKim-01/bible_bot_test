@@ -22,6 +22,7 @@ import 'campus_map.dart';
 import 'mileage_screen.dart';
 import 'study_screen.dart';
 import 'package:bible_bot/screens/body_screens/home_screens/map.dart';
+import 'package:bible_bot/screens/body_screens/home_screens/homework.dart';
 import 'package:bible_bot/screens/body_screens/home_screens/new_campus_map.dart';
 class SeeMoreScreen extends StatefulWidget {
   @override
@@ -193,12 +194,14 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                                             future: Api().getBalance(),
                                             builder: (context,snapshot){
                                               if(snapshot.hasData) {
-                                                // print(jsonDecode(snapshot.data['data'])['data']['balance']);
+                                                print(snapshot.data);
+                                                //print(jsonDecode(snapshot.data['data'])['data']['balance']);
+                                                if(showAmount(jsonDecode(snapshot.data['data'])['data']['balance'])==null){
+                                                  return CupertinoActivityIndicator();
+                                                }
                                                 return Text(
                                                   //"${showAmount(money)}원",
-                                                  '${showAmount(jsonDecode(
-                                                      snapshot
-                                                          .data['data'])['data']['balance'])}원',
+                                                  '${showAmount(jsonDecode(snapshot.data['data'])['data']['balance'])}원',
                                                   overflow: TextOverflow
                                                       .ellipsis,
                                                   style: styleModel
@@ -297,7 +300,7 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                                                     ),
                                                     onPressed: () {
                                                       setState(() {
-
+                                                      Api().getBalance();
                                                       });
                                                     }
                                                 )
@@ -895,8 +898,8 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                               ),
                               Flexible(
                                 flex: 1,
-                                child: Container()),
-                                /*RaisedButton(
+                                child:
+                                RaisedButton(
                                   highlightElevation: 0,
                                   highlightColor: styleModel
                                       .getBackgroundColor()['highLightColor'],
@@ -915,7 +918,7 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                                                       currentTheme: themeData)),
                                               Provider<String>.value(
                                                   value: themeData),
-                                            ], child: MyAppOne()),
+                                            ], child: Homework()),
                                       ),
                                     );
                                   },
@@ -929,7 +932,7 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                                             width: double.infinity,
                                             height: double.infinity,
                                             child: Icon(
-                                              Icons.bookmark,
+                                              Icons.access_alarm,
                                               size: styleModel.getContextSize()[
                                               'bigIconSize'],
                                               color: Colors.blueGrey,
@@ -943,7 +946,7 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                                             width: double.infinity,
                                             height: double.infinity,
                                             child: Text(
-                                              "new map",
+                                              "과제",
                                               overflow: TextOverflow.ellipsis,
                                               style: styleModel.getTextStyle()[
                                               'bodyTextStyle'],
@@ -954,7 +957,7 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                                     ),
                                   ),
                                 ),
-                              ),*/
+                              ),
                               Flexible(
                                 flex: 1,
                                 child: Container(),
