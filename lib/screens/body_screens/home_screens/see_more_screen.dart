@@ -960,7 +960,64 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                               ),
                               Flexible(
                                 flex: 1,
-                                child: Container(),
+                                child: RaisedButton(
+                                  highlightElevation: 0,
+                                  highlightColor: styleModel
+                                      .getBackgroundColor()['highLightColor'],
+                                  focusElevation: 0,
+                                  elevation: 0,
+                                  splashColor: styleModel
+                                      .getBackgroundColor()['splashColor'],
+                                  color: Colors.transparent,
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      new MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            MultiProvider(providers: [
+                                              Provider<StyleModel>.value(
+                                                  value: StyleModel(context,
+                                                      currentTheme: themeData)),
+                                              Provider<String>.value(
+                                                  value: themeData),
+                                            ], child: WebViewExampleState()),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Flexible(
+                                          flex: 1,
+                                          child: Container(
+                                            alignment: Alignment.bottomCenter,
+                                            width: double.infinity,
+                                            height: double.infinity,
+                                            child: Icon(
+                                              Icons.map,
+                                              size: styleModel.getContextSize()[
+                                              'bigIconSize'],
+                                              color: Colors.blueGrey,
+                                            ),
+                                          ),
+                                        ),
+                                        Flexible(
+                                          flex: 1,
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            width: double.infinity,
+                                            height: double.infinity,
+                                            child: Text(
+                                              "newMap",
+                                              overflow: TextOverflow.ellipsis,
+                                              style: styleModel.getTextStyle()[
+                                              'bodyTextStyle'],
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ),
                               Flexible(
                                 flex: 1,

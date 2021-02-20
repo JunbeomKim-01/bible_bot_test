@@ -8,6 +8,7 @@ environment:
 
 dependencies:
 
+  webview_flutter: ^0.3.24
 
   geolocator: ^6.0.0
   # https://pub.dev/packages/url_launcher#-r eadme-tab-

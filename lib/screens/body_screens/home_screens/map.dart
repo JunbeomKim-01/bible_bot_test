@@ -26,7 +26,7 @@ class MapState extends State<Map> {
     return Scaffold(
       backgroundColor: styleModel.getBackgroundColor()['backgroundColorLevel1'],
       appBar: AppBar(
-        elevation: 1,
+        elevation: 0,
         iconTheme: IconThemeData(
             color: styleModel.getBackgroundColor()['reversalColorLevel1']),
         backgroundColor:
