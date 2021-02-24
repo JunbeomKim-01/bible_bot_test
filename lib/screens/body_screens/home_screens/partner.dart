@@ -8,8 +8,16 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:bible_bot/api/api.dart';
 import 'package:flutter/widgets.dart';
+import 'dart:ui';
 
-const kPrimaryColor = Color(0xFF84AB5C);
+
+List<Marker> _markers = <Marker>[];
+
+
+
+
+const kPrimaryColor = Colors.blue;
+//Color(0xFF84AB5C);
 
 class SizeConfig {
   static MediaQueryData _mediaQueryData;
@@ -82,7 +90,8 @@ class MapState extends State<Partner> {
           Text('업데이트 예정입니다 :)',style: styleModel.getTextStyle()['appBarTextStyle'],),
           WidthDivisionLine(),
           Categories(),
-          Flexible(child: _buldGrid(context),),
+          Flexible(
+            child: _buldGrid(context,styleModel),),
         ],
       ),
 
@@ -248,7 +257,7 @@ class MapState extends State<Partner> {
 //                       });
 //                 },
 //               ),),
-  Widget _buldGrid(BuildContext context){
+  Widget _buldGrid(BuildContext context,StyleModel styleModel){
     return FutureBuilder(
       future: Api().getAiliate(),
       builder:(BuildContext context,AsyncSnapshot snapshot){
@@ -272,7 +281,7 @@ class MapState extends State<Partner> {
 
             return Container(
               alignment: Alignment.topCenter,
-              child: _boxes(context,snapshot,index),
+              child: _boxes(context,snapshot,index,styleModel),
               decoration: BoxDecoration(
                 //color: Colors.amber,
                   borderRadius: BorderRadius.circular(15)),
@@ -319,10 +328,154 @@ class MapState extends State<Partner> {
   //     ),
   //   );
   // }
-  Widget _boxes(BuildContext context,AsyncSnapshot snapshot,index) {
+  Widget _boxes(BuildContext context,AsyncSnapshot snapshot,index,StyleModel styleModel) {
+    _markers.add(
+        Marker(
+            markerId: MarkerId(snapshot.data['data']['body'][index][0]),
+            position: LatLng(to(snapshot.data['data']['body'][index][2]),to(snapshot.data['data']['body'][index][3])),
+            infoWindow: InfoWindow(
+                title: snapshot.data['data']['body'][index][0]
+            )
+        )
+    );
+    if(snapshot.data['data']['body'][index][4]==null){
+      return GestureDetector(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => addPartner(context, snapshot, index,styleModel)),
+          );
+        },
+        child:Container(
+          child: new FittedBox(
+            child: Material(
+              color: Colors.white,
+              elevation: 10.0,
+              borderRadius: BorderRadius.circular(24.0),
+              shadowColor: Color(0x802196F3),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    width: 200,
+                    height: 200,
+                    child: ClipRRect(
+                      borderRadius: new BorderRadius.circular(24.0),
+                      child: Image.asset('images/logo.png',
+                        fit: BoxFit.fill,),
+                      ),
+                    ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Container(
+                                child: Text(snapshot.data['data']['body'][index][0],
+                                  style: TextStyle(fontWeight: FontWeight.w600,color: Colors.black,fontSize: 20),
+                                ),
+                            ),
+                          ),
+                          SizedBox(height:10.0),
+                          // Container(
+                          //   child: Row(
+                          //     children: <Widget>[
+                          //       Container(
+                          //         child: Text(' ~%off!',
+                          //           style: TextStyle(fontSize: 30,fontStyle: FontStyle.italic,fontWeight: FontWeight.w300),),
+                          //       ),
+                          //     ],),
+                          // ),
+                          // SizedBox(height: 10.0,),
+                          /*Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Container(
+                    child: Text(
+                      "4.1",
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 18.0,
+                      ),
+                    )),
+                Container(
+                  child: Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                    size: 15.0,
+                  ),
+                ),
+                Container(
+                  child: Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                    size: 15.0,
+                  ),
+                ),
+                Container(
+                  child: Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                    size: 15.0,
+                  ),
+                ),
+                Container(
+                  child: Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                    size: 15.0,
+                  ),
+                ),
+                Container(
+                  child: Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                    size: 15.0,
+                  ),
+                ),
+                Container(
+                    child: Text(
+                      "(946)",
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 18.0,
+                      ),
+                    )),
+              ],
+            )),
+        SizedBox(height:5.0),
+        Container(
+            child: Text(
+              "American \u00B7 \u0024\u0024 \u00B7 1.6 mi",
+              style: TextStyle(
+                color: Colors.black54,
+                fontSize: 18.0,
+              ),
+            )),
+        SizedBox(height:5.0),
+        Container(
+            child: Text(
+              "Closed \u00B7 Opens 17:00 Thu",
+              style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold),
+            )),*/
+                        ],
+                      ),
+                    ),
+                  ),
+                ],),
+            ),
+          ),
+        ),
+      );
+    }
     return  GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => addPartner(context, snapshot, index)),
+        Navigator.push(context, MaterialPageRoute(builder: (context) => addPartner(context, snapshot, index,styleModel)),
         );
       },
       child:Container(
@@ -354,11 +507,9 @@ class MapState extends State<Partner> {
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Container(
                               child: Text(snapshot.data['data']['body'][index][0],
-                                style: TextStyle(
-                                    color: Color(0xff6200ee),
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold),
-                              )),
+                                style: TextStyle(fontWeight: FontWeight.w600,color: Colors.black,fontSize: 20),
+                        ),
+                          ),
                         ),
                         SizedBox(height:10.0),
                         // Container(
@@ -456,121 +607,123 @@ class MapState extends State<Partner> {
       ),
     );
   }
-  Widget myDetailsContainer1(String restaurantName) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: Container(
-              child: Text(restaurantName,
-                style: TextStyle(
-                    color: Color(0xff6200ee),
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold),
-              )),
-        ),
-        SizedBox(height:10.0),
-        Container(
-          child: Row(
-            children: <Widget>[
-              Container(
-                child: Text(' ~%off!',
-                  style: TextStyle(fontSize: 30,fontStyle: FontStyle.italic,fontWeight: FontWeight.w300),),
-              ),
-            ],),
-        ),
-        SizedBox(height: 10.0,),
-        /*Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Container(
-                    child: Text(
-                      "4.1",
-                      style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 18.0,
-                      ),
-                    )),
-                Container(
-                  child: Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                    size: 15.0,
-                  ),
-                ),
-                Container(
-                  child: Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                    size: 15.0,
-                  ),
-                ),
-                Container(
-                  child: Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                    size: 15.0,
-                  ),
-                ),
-                Container(
-                  child: Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                    size: 15.0,
-                  ),
-                ),
-                Container(
-                  child: Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                    size: 15.0,
-                  ),
-                ),
-                Container(
-                    child: Text(
-                      "(946)",
-                      style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 18.0,
-                      ),
-                    )),
-              ],
-            )),
-        SizedBox(height:5.0),
-        Container(
-            child: Text(
-              "American \u00B7 \u0024\u0024 \u00B7 1.6 mi",
-              style: TextStyle(
-                color: Colors.black54,
-                fontSize: 18.0,
-              ),
-            )),
-        SizedBox(height:5.0),
-        Container(
-            child: Text(
-              "Closed \u00B7 Opens 17:00 Thu",
-              style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold),
-            )),*/
-      ],
-    );
-  }
+
+
+
+  // Widget myDetailsContainer1(String restaurantName) {
+  //   return Column(
+  //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //     children: <Widget>[
+  //       Padding(
+  //         padding: const EdgeInsets.only(left: 8.0),
+  //         child: Container(
+  //             child: Text(restaurantName,
+  //               style: TextStyle(
+  //                   color: Colors.blue,
+  //                   fontSize: 30.0,
+  //                   fontWeight: FontWeight.bold),
+  //             )),
+  //       ),
+  //       SizedBox(height:10.0),
+  //       Container(
+  //         child: Row(
+  //           children: <Widget>[
+  //             Container(
+  //               child: Text(' ~%off!',
+  //                 style: TextStyle(fontSize: 30,fontStyle: FontStyle.italic,fontWeight: FontWeight.w300),),
+  //             ),
+  //           ],),
+  //       ),
+  //       SizedBox(height: 10.0,),
+  //       /*Container(
+  //           child: Row(
+  //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //             children: <Widget>[
+  //               Container(
+  //                   child: Text(
+  //                     "4.1",
+  //                     style: TextStyle(
+  //                       color: Colors.black54,
+  //                       fontSize: 18.0,
+  //                     ),
+  //                   )),
+  //               Container(
+  //                 child: Icon(
+  //                   Icons.star,
+  //                   color: Colors.amber,
+  //                   size: 15.0,
+  //                 ),
+  //               ),
+  //               Container(
+  //                 child: Icon(
+  //                   Icons.star,
+  //                   color: Colors.amber,
+  //                   size: 15.0,
+  //                 ),
+  //               ),
+  //               Container(
+  //                 child: Icon(
+  //                   Icons.star,
+  //                   color: Colors.amber,
+  //                   size: 15.0,
+  //                 ),
+  //               ),
+  //               Container(
+  //                 child: Icon(
+  //                   Icons.star,
+  //                   color: Colors.amber,
+  //                   size: 15.0,
+  //                 ),
+  //               ),
+  //               Container(
+  //                 child: Icon(
+  //                   Icons.star,
+  //                   color: Colors.amber,
+  //                   size: 15.0,
+  //                 ),
+  //               ),
+  //               Container(
+  //                   child: Text(
+  //                     "(946)",
+  //                     style: TextStyle(
+  //                       color: Colors.black54,
+  //                       fontSize: 18.0,
+  //                     ),
+  //                   )),
+  //             ],
+  //           )),
+  //       SizedBox(height:5.0),
+  //       Container(
+  //           child: Text(
+  //             "American \u00B7 \u0024\u0024 \u00B7 1.6 mi",
+  //             style: TextStyle(
+  //               color: Colors.black54,
+  //               fontSize: 18.0,
+  //             ),
+  //           )),
+  //       SizedBox(height:5.0),
+  //       Container(
+  //           child: Text(
+  //             "Closed \u00B7 Opens 17:00 Thu",
+  //             style: TextStyle(
+  //                 color: Colors.black54,
+  //                 fontSize: 18.0,
+  //                 fontWeight: FontWeight.bold),
+  //           )),*/
+  //     ],
+  //   );
+  // }
   Widget _buildGoogleMap(BuildContext context ,AsyncSnapshot snapshot,index) {
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: GoogleMap(
         mapType: MapType.normal,
-        initialCameraPosition:  CameraPosition(target: LatLng(to(snapshot.data['data']['body'][index][2]), to(snapshot.data['data']['body'][index][3])), zoom: 30.0),//37.64871447942806, 127.06436281430499
+        initialCameraPosition:  CameraPosition(target: LatLng(to(snapshot.data['data']['body'][index][2]), to(snapshot.data['data']['body'][index][3])), zoom: 16.0),//37.64871447942806, 127.06436281430499
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
-        markers: {
-        },
+        markers:Set<Marker>.of(_markers),
       ),
     );
   }
@@ -579,14 +732,70 @@ class MapState extends State<Partner> {
   //   controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(lat, long), zoom: 20,tilt: 50.0,
   //     bearing: 45.0,)));
   // }
-  Widget addPartner(BuildContext context,AsyncSnapshot snapshot,index) {
+  Widget addPartner(BuildContext context,AsyncSnapshot snapshot,index,StyleModel styleModel) {
+    if(snapshot.data['data']['body'][index][4]==null){
+      return Scaffold(
+          appBar: AppBar(
+              elevation: 0,
+              iconTheme: IconThemeData(
+                  color: styleModel.getBackgroundColor()['reversalColorLevel1'],),
+              backgroundColor:styleModel.getBackgroundColor()['backgroundColorLevel1'],
+              title:Text(snapshot.data['data']['body'][index][0],
+                style: styleModel.getTextStyle()['appBarTextStyle'],)),
+          body: Column(children: <Widget>[
+            Flexible(
+              flex: 7,
+              child: Stack(
+                children: <Widget>[
+                  ClipPath(
+                    clipper: CustomShape(),
+                    child:Container(
+                      child: _buildGoogleMap(context,snapshot,index),),),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Center(
+                        child: Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage('images/logo.png'),
+                              )
+                          ),
+                        ),),
+                    ],),
+                ],),),
+            Flexible(//images/rocket.png
+              flex: 3,
+              child: Column(
+                children: <Widget>[
+                Container(
+                  child:Container(
+                    child: Text(
+                        snapshot.data['data']['body'][index][1],
+                      style: TextStyle(color: Colors.black,fontSize: 23,fontWeight: FontWeight.bold),
+                  ),
+                ),),
+              ],
+              ),
+            ),
+            // Container(height: 400,child:Text(snapshot.data['data']['body'][index][1]),),
+          ],
+          ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
           elevation: 0,
           iconTheme: IconThemeData(
-              color: Colors.black),
-          backgroundColor:Colors.white,
-          title:Text(snapshot.data['data']['body'][index][0],style: TextStyle(color: Colors.black),)),
+              color: styleModel.getBackgroundColor()['reversalColorLevel1'],),
+          backgroundColor:styleModel.getBackgroundColor()['backgroundColorLevel1'],
+          title:Text(snapshot.data['data']['body'][index][0],
+            style: styleModel.getTextStyle()['appBarTextStyle'],)),
       body: Column(children: <Widget>[
         Flexible(
           flex: 7,
@@ -616,8 +825,13 @@ class MapState extends State<Partner> {
         ],),),
         Flexible(
           flex: 3,
-          child: Container(
-            child:Container(child: Text(snapshot.data['data']['body'][index][1]),)),),
+            child:Container(
+              // decoration: BoxDecoration(image: DecorationImage(image: AssetImage('images/rocket.png'),fit: BoxFit.cover)),
+              child: Text(
+                  snapshot.data['data']['body'][index][1],
+                style: TextStyle(color: Colors.black,fontSize: 23,fontWeight: FontWeight.bold),),
+            ),
+        ),
         // Container(height: 400,child:Text(snapshot.data['data']['body'][index][1]),),
       ],)
     );
@@ -647,7 +861,7 @@ class Categories extends StatefulWidget {
   _CategoriesState createState() => _CategoriesState();
 }
 class _CategoriesState extends State<Categories> {
-  List<String> categories = ["음식점", "여가,스포츠", "의류", "공부"];
+  List<String> categories = ["All","음식점", "여가,스포츠", "의류", "공부"];
   // By default first one is selected
   int selectedIndex = 0;
   @override

@@ -195,9 +195,9 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                                             future: Api().getBalance(),
                                             builder: (context,snapshot){
                                               if(snapshot.hasData) {
-                                                print(snapshot.data);
+                                                // print(snapshot.data);
                                                 //print(jsonDecode(snapshot.data['data'])['data']['balance']);
-                                                if(showAmount(jsonDecode(snapshot.data['data'])['data']['balance'])==null){
+                                                if(snapshot.data['data']==null){
                                                   return CupertinoActivityIndicator();
                                                 }
                                                 return Text(
