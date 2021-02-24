@@ -6,6 +6,7 @@ import 'package:bible_bot/communications/user_information.dart';
 import 'package:bible_bot/models/style_model.dart';
 import 'package:bible_bot/communications/request.dart';
 import 'package:bible_bot/screens/body_screens/home_screens/developer_screen.dart';
+import 'package:bible_bot/screens/body_screens/home_screens/partner.dart';
 import 'package:bible_bot/screens/body_screens/home_screens/schedule.dart';
 import 'package:bible_bot/screens/body_screens/home_screens/school_news.dart';
 import 'package:bible_bot/screens/body_screens/home_screens/lib.dart';
@@ -1020,9 +1021,66 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
                                 ),
                               ),
                               Flexible(
-                                flex: 1,
-                                child: Container(),
+                            flex: 1,
+                            child: RaisedButton(
+                              highlightElevation: 0,
+                              highlightColor: styleModel
+                                  .getBackgroundColor()['highLightColor'],
+                              focusElevation: 0,
+                              elevation: 0,
+                              splashColor: styleModel
+                                  .getBackgroundColor()['splashColor'],
+                              color: Colors.transparent,
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  new MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        MultiProvider(providers: [
+                                          Provider<StyleModel>.value(
+                                              value: StyleModel(context,
+                                                  currentTheme: themeData)),
+                                          Provider<String>.value(
+                                              value: themeData),
+                                        ], child: Partner()),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                child: Column(
+                                  children: <Widget>[
+                                    Flexible(
+                                      flex: 1,
+                                      child: Container(
+                                        alignment: Alignment.bottomCenter,
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                        child: Icon(
+                                          Icons.map,
+                                          size: styleModel.getContextSize()[
+                                          'bigIconSize'],
+                                          color: Colors.blueGrey,
+                                        ),
+                                      ),
+                                    ),
+                                    Flexible(
+                                      flex: 1,
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                        child: Text(
+                                          "new제휴업체",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: styleModel.getTextStyle()[
+                                          'bodyTextStyle'],
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
+                            ),
+                          ),
                             ],
                           ),
                         ),

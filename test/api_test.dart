@@ -23,6 +23,10 @@ void main() {
       await Api().getProfile();
       expect(result['result'], true);
     });
+    test('partner test', () async {
+      var result = await Api().getAiliate();
+      print(result);
+    });
 
     test('QR Code test', () async {
       var result = await Api().getQRCode();

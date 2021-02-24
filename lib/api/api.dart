@@ -130,7 +130,11 @@ class Api {
 
     return await HttpDataPorcess.auth(response, kind: requestType);
   }
-
+  Future<Map<String,dynamic>> getAiliate() async{
+    response =await http.get('$_test_url/info/partner');
+    var resulted=json.decode(response.body);
+    return resulted;
+  }
   //테스트 추천도서
   Future<Map<String,dynamic>> getrecom() async{
     response =await http.get('$_test_url/info/newbook');
