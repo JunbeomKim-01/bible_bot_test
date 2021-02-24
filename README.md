@@ -1,10 +1,10 @@
 # bible_bot
 ## :mag:성서봇 정식출시 전 test :mag:
 ### 제휴업체 대안 
-|1대안|2대안|
-|-----|-----|
-|<img width="200" src="https://user-images.githubusercontent.com/72601028/107339817-77dbd600-6b00-11eb-8939-b669bbaf8462.PNG">|<img width="200" src="https://user-images.githubusercontent.com/72601028/107339910-8c1fd300-6b00-11eb-9101-9264e365d21b.PNG">|
-|Card뷰를 사용한 횡스크롤|Grid뷰를 이용한 종스크롤|
+|1대안|2대안|3대안|
+|-----|-----|----|
+|<img width="200" src="https://user-images.githubusercontent.com/72601028/107339817-77dbd600-6b00-11eb-8939-b669bbaf8462.PNG">|<img width="200" src="https://user-images.githubusercontent.com/72601028/107339910-8c1fd300-6b00-11eb-9101-9264e365d21b.PNG">|<img src="https://user-images.githubusercontent.com/72601028/108984144-f32db200-76d2-11eb-8bfb-c28c20cc203d.png" width="130"><img src="https://user-images.githubusercontent.com/72601028/108984704-8f57b900-76d3-11eb-8c1a-385ab64a2d4e.png" width="130">|
+|Card뷰를 사용한 횡스크롤|Grid뷰를 이용한 종스크롤|Grid뷰를 디테일하게 표현|
 
 
 
